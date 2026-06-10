@@ -13,11 +13,11 @@
   --text:#1a1814;--text2:#6b6459;--text3:#a39d93;
   --red:#c0392b;--red-light:#fdf0ee;
   --green:#2d6a4f;--green-light:#e8f4ee;
+  --purple:#7c3aed;--purple-light:#f3eeff;
   --r:10px;--shadow:0 2px 8px rgba(0,0,0,.07);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);font-size:14px}
-
 header{background:var(--accent);color:#fff;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.2)}
 header h1{font-size:17px;font-weight:700}
 header h1 span{opacity:.6;font-weight:400;font-size:13px;margin-left:6px}
@@ -25,27 +25,24 @@ header h1 span{opacity:.6;font-weight:400;font-size:13px;margin-left:6px}
 .nav button{background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.8);padding:7px 14px;border-radius:6px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;transition:all .15s}
 .nav button:hover{background:rgba(255,255,255,.22);color:#fff}
 .nav button.active{background:#fff;color:var(--accent)}
-
 main{max-width:1100px;margin:0 auto;padding:20px 14px}
 .page{display:none}.page.active{display:block}
-
-.top-bar{display:flex;align-items:center;gap:10px;margin-bottom:18px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:11px 14px;box-shadow:var(--shadow);flex-wrap:wrap}
+.top-bar{display:flex;align-items:center;gap:8px;margin-bottom:18px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:11px 14px;box-shadow:var(--shadow);flex-wrap:wrap}
 .month-label{font-size:17px;font-weight:700;min-width:150px;text-align:center}
 .btn-icon{background:var(--bg);border:1px solid var(--border);width:32px;height:32px;border-radius:7px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
 .btn-icon:hover{background:var(--accent-light);border-color:var(--accent)}
 .spacer{flex:1}
-.btn{background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:7px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;transition:opacity .15s}
+.btn{display:inline-flex;align-items:center;gap:5px;background:var(--accent);color:#fff;border:none;padding:8px 14px;border-radius:7px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;transition:opacity .15s;white-space:nowrap}
 .btn:hover{opacity:.88}
 .btn.sec{background:transparent;border:1px solid var(--border2);color:var(--text2)}
 .btn.sec:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light)}
-.btn.red{background:var(--red)}
-
+.btn.red{background:var(--red);color:#fff}
+.btn.purple{background:var(--purple);color:#fff}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
 .stat{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;box-shadow:var(--shadow)}
 .stat .lbl{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px}
 .stat .val{font-size:21px;font-weight:700;color:var(--accent);font-family:'JetBrains Mono',monospace}
 .stat .sub{font-size:11px;color:var(--text3);margin-top:2px}
-
 .week-block{background:var(--white);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;box-shadow:var(--shadow);overflow:hidden}
 .week-bar{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
 .week-bar:hover{background:var(--accent-light)}
@@ -53,7 +50,6 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
 .week-totals{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);font-weight:600}
 .week-arrow{color:var(--text3);font-size:11px;transition:transform .2s}
 .week-arrow.open{transform:rotate(180deg)}
-
 .days-grid{display:grid;grid-template-columns:repeat(7,1fr)}
 .day-col{border-right:1px solid var(--border);min-height:70px}
 .day-col:last-child{border-right:none}
@@ -71,21 +67,18 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
 .add-btn:hover{background:var(--accent-light);color:var(--accent)}
 .week-foot{padding:8px 14px;display:flex;gap:14px;flex-wrap:wrap;border-top:1px solid var(--border);background:rgba(45,106,79,.03)}
 .wfi{font-size:12px;color:var(--text2)}.wfi strong{color:var(--accent)}
-
-/* notas del mes */
 .month-notes{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:16px;box-shadow:var(--shadow);display:flex;align-items:flex-start;gap:10px}
 .month-notes textarea{flex:1;background:transparent;border:none;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text);resize:none;outline:none;min-height:36px;line-height:1.5}
 .month-notes .nlbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;padding-top:2px}
-
-/* OVERLAYS */
+/* overlays */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .2s}
 .overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--white);border-radius:14px;width:100%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,.25);overflow:hidden;transform:translateY(12px);transition:transform .2s}
+.modal{background:var(--white);border-radius:14px;width:100%;max-width:460px;box-shadow:0 20px 60px rgba(0,0,0,.25);overflow:hidden;transform:translateY(12px);transition:transform .2s}
 .overlay.open .modal{transform:translateY(0)}
-.mhead{background:var(--accent);color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.mhead{color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
 .mhead h2{font-size:16px;font-weight:600}
 .mcls{background:rgba(255,255,255,.2);border:none;color:#fff;width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
-.mbody{padding:18px;max-height:70vh;overflow-y:auto}
+.mbody{padding:18px;max-height:72vh;overflow-y:auto}
 .mfoot{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
 .field{margin-bottom:13px}
 .field label{display:block;font-size:11px;font-weight:700;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
@@ -94,20 +87,14 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .calc-box{margin-top:7px;background:var(--accent-light);border:1px solid var(--accent);border-radius:6px;padding:7px 11px;font-size:13px;color:var(--accent);font-weight:600;display:none}
 .calc-box.show{display:block}
-
-/* repeat modal extras */
 .day-checks{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:6px}
 .day-check{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
-.day-check input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+.day-check input{width:18px;height:18px;accent-color:var(--purple);cursor:pointer}
 .day-check span{font-size:11px;font-weight:600;color:var(--text2)}
-.info-box{background:var(--accent-light);border:1px solid var(--accent);border-radius:7px;padding:9px 12px;font-size:12px;color:var(--accent);margin-top:8px;line-height:1.5}
-
-/* confirm modal */
-#confirm-overlay .modal{max-width:360px}
+.info-box{background:var(--purple-light);border:1px solid #c4b5fd;border-radius:7px;padding:9px 12px;font-size:12px;color:#5b21b6;margin-top:8px;line-height:1.6}
 .confirm-msg{padding:20px 18px;font-size:14px;line-height:1.6;color:var(--text2)}
 .confirm-msg strong{color:var(--text);display:block;font-size:15px;margin-bottom:6px}
-
-/* resumen cards */
+/* resumen */
 .client-card{background:var(--white);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:12px}
 .card-head{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .card-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0}
@@ -116,10 +103,18 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
 .badge-ok{background:var(--green);color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
 .badge-no{background:var(--red);color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
 .card-body{padding:13px 16px}
-.cobro-row{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;margin-bottom:10px}
-.cobro-inp{flex:1;min-width:120px;background:var(--bg);border:2px solid var(--border2);color:var(--text);padding:9px 12px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700}
-.cobro-inp:focus{outline:none;border-color:var(--accent)}
-.btn-save{background:var(--accent);color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:700;font-size:13px;white-space:nowrap}
+/* pagos list */
+.pagos-list{margin-bottom:10px}
+.pago-row{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--green-light);border:1px solid #b7dfca;border-radius:7px;margin-bottom:5px;font-size:13px}
+.pago-row .pa{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--green);min-width:70px}
+.pago-row .pd{color:var(--text3);font-size:11px;flex:1}
+.pago-row .pdel{background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:15px;padding:2px 6px;border-radius:4px}
+.pago-row .pdel:hover{color:var(--red);background:var(--red-light)}
+.add-pago-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.pago-inp{flex:1;min-width:100px;background:var(--bg);border:2px solid var(--border2);color:var(--text);padding:8px 11px;border-radius:7px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600}
+.pago-inp:focus{outline:none;border-color:var(--accent)}
+.pago-date-inp{width:140px;background:var(--bg);border:2px solid var(--border2);color:var(--text);padding:8px 11px;border-radius:7px;font-family:'Outfit',sans-serif;font-size:13px}
+.pago-date-inp:focus{outline:none;border-color:var(--accent)}
 .btn-full{width:100%;border:none;padding:10px;border-radius:8px;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px}
 .btn-full.green{background:var(--green);color:#fff}
 .btn-full.ghost{background:transparent;color:var(--red);border:2px solid #f5c6c0;font-size:12px;padding:8px}
@@ -129,30 +124,28 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
 .sess-row{display:flex;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px;flex-wrap:wrap}
 .sess-row:last-child{border-bottom:none}
 .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;display:inline-block}
-
+/* clients config */
 .ctable{width:100%;border-collapse:collapse}
 .ctable th{padding:9px 12px;text-align:left;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--border);background:var(--surface)}
 .ctable td{padding:7px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
 .ctable input[type=text],.ctable input[type=number]{background:var(--bg);border:1px solid var(--border2);color:var(--text);padding:6px 9px;border-radius:6px;font-family:'Outfit',sans-serif;font-size:13px;width:100%}
 .ctable input:focus{outline:none;border-color:var(--accent)}
-
 .hist-row{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:13px 17px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:border-color .15s;box-shadow:var(--shadow)}
 .hist-row:hover{border-color:var(--accent);background:var(--accent-light)}
-
 #toast{position:fixed;bottom:18px;right:18px;background:var(--accent);color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;opacity:0;transform:translateY(8px);transition:all .25s;z-index:999;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.2)}
 #toast.show{opacity:1;transform:translateY(0)}
 .empty{text-align:center;padding:32px;color:var(--text3)}.empty .ico{font-size:32px;margin-bottom:8px}
-
+.section-title{font-size:15px;font-weight:700;margin-bottom:12px}
 @media(max-width:640px){
   .stats-row{grid-template-columns:1fr 1fr}
   .days-grid{grid-template-columns:1fr}
   .day-col{border-right:none;border-bottom:1px solid var(--border)}
   .nav button span{display:none}
+  .top-bar{gap:5px}
 }
 </style>
 </head>
 <body>
-
 <header>
   <h1>Lidia <span>· Mis Horas</span></h1>
   <nav class="nav">
@@ -162,7 +155,6 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
     <button data-page="historial">🗂 <span>Historial</span></button>
   </nav>
 </header>
-
 <main>
 
 <!-- REGISTRO -->
@@ -172,14 +164,15 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
     <div class="month-label" id="mlabel">—</div>
     <button class="btn-icon" id="next-m">▶</button>
     <div class="spacer"></div>
-    <button class="btn sec" onclick="saveAll()">💾 Guardar</button>
-    <button class="btn sec" onclick="openRepeat()">🔁 Repetir sesión</button>
-    <button class="btn" onclick="openAdd(null)">＋ Añadir sesión</button>
+    <button class="btn sec" onclick="openRepeat()">🔁 <span>Repetir</span></button>
+    <button class="btn sec" onclick="openRepeatMulti()">📅 <span>Varios meses</span></button>
+    <button class="btn" onclick="openAdd(null)">＋ <span>Añadir</span></button>
+    <button class="btn red" onclick="openClearMonth()">🗑 <span>Borrar mes</span></button>
   </div>
   <div class="stats-row" id="stats-row"></div>
   <div class="month-notes">
     <span class="nlbl">📝 Notas</span>
-    <textarea id="month-notes-ta" placeholder="Notas del mes: deudas pendientes, avisos..." rows="2" oninput="saveNotes()"></textarea>
+    <textarea id="month-notes-ta" placeholder="Notas del mes: deudas, avisos..." rows="2" oninput="saveNotes()"></textarea>
   </div>
   <div id="weeks-container"></div>
 </div>
@@ -199,11 +192,13 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
 <!-- CLIENTES -->
 <div id="page-clientes" class="page">
   <p style="font-weight:700;font-size:16px;margin-bottom:4px">Clientes y tarifas</p>
-  <p style="color:var(--text2);font-size:13px;margin-bottom:14px">Edita nombres y precio por hora.</p>
+  <p style="color:var(--text2);font-size:13px;margin-bottom:14px">Edita nombre, tarifa y <strong>nota por defecto</strong> (aparece sola al añadir sesión).</p>
   <button class="btn" onclick="addClientRow()" style="margin-bottom:14px">＋ Nuevo cliente</button>
   <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)">
-    <table class="ctable"><thead><tr><th>Color</th><th>Nombre</th><th>€/hora</th><th>Notas</th><th></th></tr></thead>
-    <tbody id="ctbody"></tbody></table>
+    <table class="ctable">
+      <thead><tr><th>Color</th><th>Nombre</th><th>€/h</th><th>Nota por defecto</th><th></th></tr></thead>
+      <tbody id="ctbody"></tbody>
+    </table>
   </div>
   <button class="btn" onclick="saveClients()" style="margin-top:12px">💾 Guardar clientes</button>
 </div>
@@ -214,102 +209,155 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
   <p style="color:var(--text2);font-size:13px;margin-bottom:14px">Todos los meses guardados.</p>
   <div id="hist-body"></div>
 </div>
-
 </main>
 
 <!-- MODAL SESIÓN -->
 <div class="overlay" id="overlay">
   <div class="modal">
-    <div class="mhead"><h2 id="mtitle">Nueva sesión</h2><button class="mcls" onclick="closeModal()">✕</button></div>
+    <div class="mhead" style="background:var(--accent)"><h2 id="mtitle">Nueva sesión</h2><button class="mcls" onclick="closeModal('overlay')">✕</button></div>
     <div class="mbody">
       <div class="field"><label>Día</label><input type="date" id="f-date"></div>
-      <div class="field"><label>Cliente</label><select id="f-client" onchange="updCalc()"></select></div>
+      <div class="field"><label>Cliente</label><select id="f-client" onchange="onClientChange()"></select></div>
       <div class="field">
         <label>Horario</label>
         <div class="row2"><input type="time" id="f-start" oninput="updCalc()"><input type="time" id="f-end" oninput="updCalc()"></div>
         <div class="calc-box" id="calc-box"></div>
       </div>
-      <div class="field"><label>Notas (opcional)</label><input type="text" id="f-notes" placeholder="Ej: pagado, a fin de mes..."></div>
+      <div class="field">
+        <label>Nota del día <small style="text-transform:none;letter-spacing:0;font-weight:400">(opcional)</small></label>
+        <input type="text" id="f-notes" placeholder="Ej: pagado hoy, sesión extra...">
+      </div>
+      <div class="field" id="f-default-note-wrap" style="display:none">
+        <label style="color:var(--accent)">📌 Nota por defecto del cliente</label>
+        <div id="f-default-note-display" style="background:var(--accent-light);border:1px solid var(--accent);border-radius:6px;padding:7px 11px;font-size:13px;color:var(--accent)"></div>
+      </div>
     </div>
     <div class="mfoot">
-      <button class="btn sec" onclick="closeModal()">Cancelar</button>
+      <button class="btn sec" onclick="closeModal('overlay')">Cancelar</button>
       <button id="btn-del" class="btn red" style="display:none" onclick="confirmDel()">🗑 Eliminar</button>
       <button class="btn" onclick="saveSession()">✓ Guardar</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL REPETIR -->
+<!-- MODAL REPETIR (1 mes) -->
 <div class="overlay" id="repeat-overlay">
   <div class="modal">
-    <div class="mhead" style="background:#7c3aed"><h2>🔁 Repetir sesión todo el mes</h2><button class="mcls" onclick="closeRepeat()">✕</button></div>
+    <div class="mhead" style="background:var(--purple)"><h2>🔁 Repetir este mes</h2><button class="mcls" onclick="closeModal('repeat-overlay')">✕</button></div>
     <div class="mbody">
       <div class="field"><label>Cliente</label><select id="r-client" onchange="updRCalc()"></select></div>
       <div class="field">
         <label>Horario</label>
         <div class="row2"><input type="time" id="r-start" oninput="updRCalc()"><input type="time" id="r-end" oninput="updRCalc()"></div>
-        <div class="calc-box" id="r-calc-box"></div>
+        <div class="calc-box" id="r-calc-box" style="border-color:var(--purple);background:var(--purple-light);color:var(--purple)"></div>
       </div>
       <div class="field">
-        <label>Qué días de la semana</label>
+        <label>Días de la semana</label>
         <div class="day-checks">
-          <label class="day-check"><input type="checkbox" id="rd-1"><span>Lun</span></label>
-          <label class="day-check"><input type="checkbox" id="rd-2"><span>Mar</span></label>
-          <label class="day-check"><input type="checkbox" id="rd-3"><span>Mié</span></label>
-          <label class="day-check"><input type="checkbox" id="rd-4"><span>Jue</span></label>
-          <label class="day-check"><input type="checkbox" id="rd-5"><span>Vie</span></label>
-          <label class="day-check"><input type="checkbox" id="rd-6"><span>Sáb</span></label>
-          <label class="day-check"><input type="checkbox" id="rd-0"><span>Dom</span></label>
+          <label class="day-check"><input type="checkbox" class="rd" value="1"><span>Lun</span></label>
+          <label class="day-check"><input type="checkbox" class="rd" value="2"><span>Mar</span></label>
+          <label class="day-check"><input type="checkbox" class="rd" value="3"><span>Mié</span></label>
+          <label class="day-check"><input type="checkbox" class="rd" value="4"><span>Jue</span></label>
+          <label class="day-check"><input type="checkbox" class="rd" value="5"><span>Vie</span></label>
+          <label class="day-check"><input type="checkbox" class="rd" value="6"><span>Sáb</span></label>
+          <label class="day-check"><input type="checkbox" class="rd" value="0"><span>Dom</span></label>
         </div>
       </div>
-      <div class="field"><label>Notas (opcional)</label><input type="text" id="r-notes" placeholder="Ej: a fin de mes..."></div>
-      <div class="info-box" id="r-preview">Selecciona días para ver cuántas sesiones se crearán.</div>
+      <div class="field"><label>Nota (opcional)</label><input type="text" id="r-notes"></div>
+      <div class="info-box" id="r-preview">Selecciona días para ver el resumen.</div>
     </div>
     <div class="mfoot">
-      <button class="btn sec" onclick="closeRepeat()">Cancelar</button>
-      <button class="btn" style="background:#7c3aed" onclick="applyRepeat()">🔁 Crear sesiones</button>
+      <button class="btn sec" onclick="closeModal('repeat-overlay')">Cancelar</button>
+      <button class="btn purple" onclick="applyRepeat(false)">🔁 Crear sesiones</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL CONFIRMAR ELIMINAR -->
-<div class="overlay" id="confirm-overlay">
+<!-- MODAL REPETIR VARIOS MESES -->
+<div class="overlay" id="repeat-multi-overlay">
   <div class="modal">
-    <div class="mhead" style="background:var(--red)"><h2>¿Eliminar sesión?</h2><button class="mcls" onclick="closeConfirm()">✕</button></div>
-    <div class="confirm-msg">
-      <strong id="confirm-detail">Sesión</strong>
-      Esta acción no se puede deshacer.
+    <div class="mhead" style="background:#0369a1"><h2>📅 Repetir varios meses</h2><button class="mcls" onclick="closeModal('repeat-multi-overlay')">✕</button></div>
+    <div class="mbody">
+      <div class="field"><label>Cliente</label><select id="rm-client" onchange="updRMCalc()"></select></div>
+      <div class="field">
+        <label>Horario</label>
+        <div class="row2"><input type="time" id="rm-start" oninput="updRMCalc()"><input type="time" id="rm-end" oninput="updRMCalc()"></div>
+        <div class="calc-box" id="rm-calc-box" style="border-color:#0369a1;background:#e0f2fe;color:#0369a1"></div>
+      </div>
+      <div class="field">
+        <label>Días de la semana</label>
+        <div class="day-checks">
+          <label class="day-check"><input type="checkbox" class="rmd" value="1"><span>Lun</span></label>
+          <label class="day-check"><input type="checkbox" class="rmd" value="2"><span>Mar</span></label>
+          <label class="day-check"><input type="checkbox" class="rmd" value="3"><span>Mié</span></label>
+          <label class="day-check"><input type="checkbox" class="rmd" value="4"><span>Jue</span></label>
+          <label class="day-check"><input type="checkbox" class="rmd" value="5"><span>Vie</span></label>
+          <label class="day-check"><input type="checkbox" class="rmd" value="6"><span>Sáb</span></label>
+          <label class="day-check"><input type="checkbox" class="rmd" value="0"><span>Dom</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Rango de meses</label>
+        <div class="row2">
+          <div><label style="font-size:11px;color:var(--text3)">Desde</label><input type="month" id="rm-from"></div>
+          <div><label style="font-size:11px;color:var(--text3)">Hasta</label><input type="month" id="rm-to"></div>
+        </div>
+      </div>
+      <div class="field"><label>Nota (opcional)</label><input type="text" id="rm-notes"></div>
+      <div class="info-box" id="rm-preview" style="border-color:#bae6fd;background:#e0f2fe;color:#0369a1">Selecciona días y rango de meses.</div>
     </div>
     <div class="mfoot">
-      <button class="btn sec" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn sec" onclick="closeModal('repeat-multi-overlay')">Cancelar</button>
+      <button class="btn" style="background:#0369a1" onclick="applyRepeatMulti()">📅 Crear sesiones</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMAR ELIMINAR SESIÓN -->
+<div class="overlay" id="confirm-overlay">
+  <div class="modal">
+    <div class="mhead" style="background:var(--red)"><h2>¿Eliminar sesión?</h2><button class="mcls" onclick="closeModal('confirm-overlay')">✕</button></div>
+    <div class="confirm-msg"><strong id="confirm-detail"></strong>Esta acción no se puede deshacer.</div>
+    <div class="mfoot">
+      <button class="btn sec" onclick="closeModal('confirm-overlay')">Cancelar</button>
       <button class="btn red" onclick="doDelete()">🗑 Sí, eliminar</button>
     </div>
   </div>
 </div>
 
-<div id="toast"></div>
+<!-- MODAL BORRAR MES -->
+<div class="overlay" id="clear-month-overlay">
+  <div class="modal">
+    <div class="mhead" style="background:var(--red)"><h2>⚠️ Borrar mes completo</h2><button class="mcls" onclick="closeModal('clear-month-overlay')">✕</button></div>
+    <div class="confirm-msg"><strong id="clear-month-label"></strong>Se eliminarán TODAS las sesiones de este mes. Los cobros registrados también se borrarán. Esta acción no se puede deshacer.</div>
+    <div class="mfoot">
+      <button class="btn sec" onclick="closeModal('clear-month-overlay')">Cancelar</button>
+      <button class="btn red" onclick="doClearMonth()">🗑 Borrar todo el mes</button>
+    </div>
+  </div>
+</div>
 
+<div id="toast"></div>
 <script>
 const MONTHS=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const DS=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 const CCOLORS=['#3b82f6','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#f97316','#84cc16','#ec4899','#6366f1','#14b8a6','#a855f7'];
-
 let cY,cM,mData,clients,editId=null,pendingDelId=null;
 
 // ── STORAGE ──
 function mk(){return '_'+Math.random().toString(36).slice(2,8)}
-function mKey(m,y){return'lh3_'+y+'_'+String(m).padStart(2,'0')}
+function mKey(m,y){return'lh4_'+y+'_'+String(m).padStart(2,'0')}
 function loadMD(m,y){const r=localStorage.getItem(mKey(m,y));return r?JSON.parse(r):{sessions:[]}}
 function saveMD(m,y,d){localStorage.setItem(mKey(m,y),JSON.stringify(d))}
-function cobKey(m,y){return'lh3_cob_'+y+'_'+String(m).padStart(2,'0')}
+function cobKey(m,y){return'lh4_cob_'+y+'_'+String(m).padStart(2,'0')}
+// cobros: { CLIENTNAME: [{id, amount, date, note}] }
 function loadCob(m,y){const r=localStorage.getItem(cobKey(m,y));return r?JSON.parse(r):{}}
 function saveCob(m,y,d){localStorage.setItem(cobKey(m,y),JSON.stringify(d))}
-function notesKey(m,y){return'lh3_notes_'+y+'_'+String(m).padStart(2,'0')}
+function notesKey(m,y){return'lh4_notes_'+y+'_'+String(m).padStart(2,'0')}
 function loadNotes(m,y){return localStorage.getItem(notesKey(m,y))||''}
 function saveNotesData(m,y,t){localStorage.setItem(notesKey(m,y),t)}
-
 function defClients(){return[
-  {id:'c1',name:'PAULA',rate:10,color:'#3b82f6',notes:''},
+  {id:'c1',name:'PAULA',rate:10,color:'#3b82f6',notes:'A fin de MES'},
   {id:'c2',name:'VIKI',rate:10,color:'#10b981',notes:''},
   {id:'c3',name:'VICTORIA',rate:12,color:'#8b5cf6',notes:''},
   {id:'c4',name:'ROM',rate:15,color:'#f59e0b',notes:''},
@@ -319,16 +367,16 @@ function defClients(){return[
   {id:'c8',name:'FABIO',rate:10,color:'#84cc16',notes:''},
   {id:'c9',name:'DOLORES',rate:10,color:'#ec4899',notes:''},
   {id:'c10',name:'CARLOS',rate:10,color:'#ef4444',notes:''},
-  {id:'c11',name:'ANA',rate:10,color:'#14b8a6',notes:''},
+  {id:'c11',name:'ANA',rate:10,color:'#14b8a6',notes:'A fin de MES'},
   {id:'c12',name:'LUCIA',rate:10,color:'#a855f7',notes:''},
   {id:'c13',name:'LOLI',rate:10,color:'#d946ef',notes:''},
 ]}
-function loadClients(){const r=localStorage.getItem('lh3_clients');return r?JSON.parse(r):defClients()}
-function saveClientsData(){localStorage.setItem('lh3_clients',JSON.stringify(clients))}
-function getC(name){return clients.find(c=>c.name===(name||'').toUpperCase())||{rate:10,color:'#888',name:name||''}}
+function loadClients(){const r=localStorage.getItem('lh4_clients');return r?JSON.parse(r):defClients()}
+function saveClientsData(){localStorage.setItem('lh4_clients',JSON.stringify(clients))}
+function getC(name){return clients.find(c=>c.name===(name||'').toUpperCase())||{rate:10,color:'#888',name:name||'',notes:''}}
 function calcH(s,e){if(!s||!e)return 0;const[sh,sm]=s.split(':').map(Number),[eh,em]=e.split(':').map(Number),m=(eh*60+em)-(sh*60+sm);return m>0?m/60:0}
-function fE(n){return n.toFixed(2).replace('.',',')+' \u20ac'}
-function fH(n){return n.toFixed(2).replace('.',',')+' h'}
+function fE(n){return n.toFixed(2).replace('.',',')+'\u00a0\u20ac'}
+function fH(n){return n.toFixed(2).replace('.',',')+'\u00a0h'}
 function fmtD(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
 function rgba(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return`rgba(${r},${g},${b},${a})`}
@@ -353,20 +401,20 @@ function init(){
       if(pg==='historial')renderHistorial();
     });
   });
-  // close overlays on bg click
-  ['overlay','repeat-overlay','confirm-overlay'].forEach(id=>{
-    document.getElementById(id).addEventListener('click',e=>{if(e.target===e.currentTarget)closeAll()});
+  document.querySelectorAll('.overlay').forEach(o=>{
+    o.addEventListener('click',e=>{if(e.target===o)closeModal(o.id)});
   });
+  // repeat checkboxes trigger preview
+  document.querySelectorAll('.rd').forEach(cb=>cb.addEventListener('change',updRCalc));
+  document.querySelectorAll('.rmd').forEach(cb=>cb.addEventListener('change',updRMCalc));
   seedData();loadRender();
 }
 
-function closeAll(){closeModal();closeRepeat();closeConfirm()}
-
+function closeModal(id){document.getElementById(id).classList.remove('open')}
 function chM(dir,isR){
   cM+=dir;if(cM>11){cM=0;cY++}if(cM<0){cM=11;cY--}
   loadRender();if(isR)renderResumen();
 }
-
 function loadRender(){
   mData=loadMD(cM,cY);
   const lbl=MONTHS[cM]+' '+cY;
@@ -375,7 +423,6 @@ function loadRender(){
   document.getElementById('month-notes-ta').value=loadNotes(cM,cY);
   renderStats();renderWeeks();
 }
-
 function saveNotes(){saveNotesData(cM,cY,document.getElementById('month-notes-ta').value)}
 
 // ── STATS ──
@@ -385,9 +432,9 @@ function renderStats(){
   ss.forEach(s=>{const h=calcH(s.start,s.end);tH+=h;tE+=h*getC(s.client).rate});
   document.getElementById('stats-row').innerHTML=`
     <div class="stat"><div class="lbl">Horas mes</div><div class="val">${tH.toFixed(1)}</div><div class="sub">horas trabajadas</div></div>
-    <div class="stat"><div class="lbl">Ingresos</div><div class="val">${tE.toFixed(0)} \u20ac</div><div class="sub">total facturado</div></div>
+    <div class="stat"><div class="lbl">Ingresos</div><div class="val">${tE.toFixed(0)}\u20ac</div><div class="sub">total facturado</div></div>
     <div class="stat"><div class="lbl">Sesiones</div><div class="val">${n}</div><div class="sub">entradas del mes</div></div>
-    <div class="stat"><div class="lbl">\u20ac/hora media</div><div class="val">${tH>0?(tE/tH).toFixed(1)+' \u20ac':'—'}</div><div class="sub">tarifa promedio</div></div>`;
+    <div class="stat"><div class="lbl">\u20ac/h media</div><div class="val">${tH>0?(tE/tH).toFixed(1)+'\u20ac':'—'}</div><div class="sub">tarifa promedio</div></div>`;
 }
 
 // ── WEEKS ──
@@ -402,9 +449,7 @@ function getWeeks(y,m){
   }
   return weeks;
 }
-
 function getSess(date){const ds=fmtD(date);return(mData.sessions||[]).filter(s=>s.date===ds)}
-
 function renderWeeks(){
   const cont=document.getElementById('weeks-container');cont.innerHTML='';
   const today=new Date();today.setHours(0,0,0,0);
@@ -431,10 +476,11 @@ function renderWeeks(){
       const ds=fmtD(date),isT=date.getTime()===today.getTime();
       const pills=getSess(date).map(s=>{
         const c=getC(s.client),h=calcH(s.start,s.end),p=h*c.rate;
+        const allNotes=[s.defaultNote,s.notes].filter(Boolean).join(' · ');
         return`<div class="pill" style="background:${rgba(c.color,.12)};border-color:${rgba(c.color,.35)}" onclick="openEdit('${s.id}')">
           <div class="pn" style="color:${c.color}">${s.client||'?'}</div>
           <div class="pt">${s.start||''}${s.end?' \u2013 '+s.end:''}</div>
-          <div class="pp" style="color:${c.color}">${p>0?fE(p):''}${s.notes?' \u00b7 '+esc(s.notes):''}</div>
+          <div class="pp" style="color:${c.color}">${p>0?fE(p):''}${allNotes?' \u00b7 '+esc(allNotes):''}</div>
         </div>`;
       }).join('');
       col.innerHTML=`
@@ -454,7 +500,6 @@ function renderWeeks(){
       :'<span style="color:var(--text3);font-size:12px">Sin sesiones esta semana</span>';
   });
 }
-
 function togW(bid,aid){
   const b=document.getElementById(bid),a=document.getElementById(aid),h=b.style.display==='none';
   b.style.display=h?'':'none';if(a)a.classList.toggle('open',h);
@@ -462,7 +507,16 @@ function togW(bid,aid){
 
 // ── MODAL SESIÓN ──
 function fillSel(selId,selected){
-  document.getElementById(selId).innerHTML=clients.map(c=>`<option value="${esc(c.name)}"${c.name===selected?' selected':''}>${c.name} \u2014 ${c.rate} \u20ac/h</option>`).join('');
+  document.getElementById(selId).innerHTML=clients.map(c=>`<option value="${esc(c.name)}"${c.name===selected?' selected':''}>${c.name} \u2014 ${c.rate}\u20ac/h</option>`).join('');
+}
+function onClientChange(){
+  const name=document.getElementById('f-client').value;
+  const c=getC(name);
+  const wrap=document.getElementById('f-default-note-wrap');
+  const disp=document.getElementById('f-default-note-display');
+  if(c.notes){wrap.style.display='';disp.textContent='📌 '+c.notes}
+  else wrap.style.display='none';
+  updCalc();
 }
 function openAdd(ds){
   editId=null;
@@ -473,8 +527,10 @@ function openAdd(ds){
   document.getElementById('f-start').value='';
   document.getElementById('f-end').value='';
   document.getElementById('f-notes').value='';
+  document.getElementById('f-default-note-wrap').style.display='none';
   document.getElementById('calc-box').classList.remove('show');
   document.getElementById('overlay').classList.add('open');
+  onClientChange();
 }
 function openEdit(sid){
   const s=(mData.sessions||[]).find(x=>x.id===sid);if(!s)return;
@@ -486,14 +542,13 @@ function openEdit(sid){
   document.getElementById('f-start').value=s.start||'';
   document.getElementById('f-end').value=s.end||'';
   document.getElementById('f-notes').value=s.notes||'';
-  updCalc();
+  onClientChange();updCalc();
   document.getElementById('overlay').classList.add('open');
 }
-function closeModal(){document.getElementById('overlay').classList.remove('open')}
 function updCalc(){
   const s=document.getElementById('f-start').value,e=document.getElementById('f-end').value,cl=document.getElementById('f-client').value;
   const h=calcH(s,e),box=document.getElementById('calc-box');
-  if(h>0){box.textContent=fH(h)+' \u00d7 '+getC(cl).rate+' \u20ac/h = '+fE(h*getC(cl).rate);box.classList.add('show')}
+  if(h>0){box.textContent=fH(h)+' \u00d7 '+getC(cl).rate+'\u20ac/h = '+fE(h*getC(cl).rate);box.classList.add('show')}
   else box.classList.remove('show');
 }
 function saveSession(){
@@ -502,115 +557,177 @@ function saveSession(){
     notes=document.getElementById('f-notes').value.trim();
   if(!date){alert('Selecciona un día');return}
   if(!client){alert('Elige un cliente');return}
+  const defaultNote=getC(client).notes||'';
   if(!mData.sessions)mData.sessions=[];
-  if(editId){const i=mData.sessions.findIndex(x=>x.id===editId);if(i!==-1)mData.sessions[i]={id:editId,date,client,start,end,notes}}
-  else mData.sessions.push({id:mk(),date,client,start,end,notes});
-  saveAll();closeModal();renderStats();renderWeeks();showToast('✓ Sesión guardada');
+  if(editId){
+    const i=mData.sessions.findIndex(x=>x.id===editId);
+    if(i!==-1)mData.sessions[i]={id:editId,date,client,start,end,notes,defaultNote};
+  } else {
+    mData.sessions.push({id:mk(),date,client,start,end,notes,defaultNote});
+  }
+  saveAll();closeModal('overlay');renderStats();renderWeeks();showToast('✓ Sesión guardada');
 }
-
-// ── ELIMINAR (sin confirm() del navegador) ──
 function confirmDel(){
-  const s=(mData.sessions||[]).find(x=>x.id===editId);
-  if(!s)return;
+  const s=(mData.sessions||[]).find(x=>x.id===editId);if(!s)return;
   pendingDelId=editId;
-  const c=getC(s.client);
   document.getElementById('confirm-detail').textContent=s.client+' · '+s.date+(s.start?' · '+s.start+' – '+s.end:'');
-  closeModal();
+  closeModal('overlay');
   document.getElementById('confirm-overlay').classList.add('open');
 }
-function closeConfirm(){document.getElementById('confirm-overlay').classList.remove('open');pendingDelId=null}
 function doDelete(){
   if(!pendingDelId)return;
   mData.sessions=(mData.sessions||[]).filter(s=>s.id!==pendingDelId);
   pendingDelId=null;editId=null;
-  saveAll();closeConfirm();renderStats();renderWeeks();showToast('🗑 Sesión eliminada');
+  saveAll();closeModal('confirm-overlay');renderStats();renderWeeks();showToast('🗑 Sesión eliminada');
 }
 
-// ── MODAL REPETIR ──
+// ── BORRAR MES ──
+function openClearMonth(){
+  document.getElementById('clear-month-label').textContent=MONTHS[cM]+' '+cY+' — ';
+  document.getElementById('clear-month-overlay').classList.add('open');
+}
+function doClearMonth(){
+  mData={sessions:[]};
+  saveAll();
+  saveCob(cM,cY,{});
+  saveNotesData(cM,cY,'');
+  closeModal('clear-month-overlay');
+  loadRender();
+  showToast('🗑 Mes borrado');
+}
+
+// ── REPETIR 1 MES ──
 function openRepeat(){
   fillSel('r-client','');
   document.getElementById('r-start').value='';
   document.getElementById('r-end').value='';
   document.getElementById('r-notes').value='';
-  [0,1,2,3,4,5,6].forEach(d=>document.getElementById('rd-'+d).checked=false);
+  document.querySelectorAll('.rd').forEach(cb=>cb.checked=false);
   document.getElementById('r-calc-box').classList.remove('show');
-  document.getElementById('r-preview').textContent='Selecciona días para ver cuántas sesiones se crearán.';
+  document.getElementById('r-preview').textContent='Selecciona días para ver el resumen.';
   document.getElementById('repeat-overlay').classList.add('open');
 }
-function closeRepeat(){document.getElementById('repeat-overlay').classList.remove('open')}
 function updRCalc(){
   const s=document.getElementById('r-start').value,e=document.getElementById('r-end').value,cl=document.getElementById('r-client').value;
   const h=calcH(s,e),box=document.getElementById('r-calc-box');
-  if(h>0){box.textContent=fH(h)+' \u00d7 '+getC(cl).rate+' \u20ac/h = '+fE(h*getC(cl).rate)+' por sesión';box.classList.add('show')}
+  if(h>0){box.textContent=fH(h)+' \u00d7 '+getC(cl).rate+'\u20ac/h = '+fE(h*getC(cl).rate)+' por sesión';box.classList.add('show')}
   else box.classList.remove('show');
-  updRPreview();
+  const days=getChecked('.rd');
+  if(!days.length){document.getElementById('r-preview').textContent='Selecciona al menos un día.';return}
+  const dates=repeatDatesInMonth(cY,cM,days);
+  const total=dates.length*calcH(s,e)*getC(cl).rate;
+  document.getElementById('r-preview').innerHTML=`Se crearán <strong>${dates.length} sesiones</strong> los <strong>${days.map(d=>DS[d]).join(', ')}</strong> de ${MONTHS[cM]}${calcH(s,e)>0?' · Total: <strong>'+fE(total)+'</strong>':''}`;
 }
-function updRPreview(){
-  const checked=getCheckedDays();
-  if(!checked.length){document.getElementById('r-preview').textContent='Selecciona al menos un día de la semana.';return}
-  const dates=getRepeatDates(checked);
-  const cl=document.getElementById('r-client').value;
-  const h=calcH(document.getElementById('r-start').value,document.getElementById('r-end').value);
-  const total=dates.length*h*getC(cl).rate;
-  document.getElementById('r-preview').innerHTML=
-    `Se crearán <strong>${dates.length} sesiones</strong> de ${cl||'?'} los <strong>${checked.map(d=>DS[d]).join(', ')}</strong> de ${MONTHS[cM]}.<br>`+
-    (h>0?`Total mes: <strong>${fE(total)}</strong>`:'');
-}
-function getCheckedDays(){return[0,1,2,3,4,5,6].filter(d=>document.getElementById('rd-'+d).checked)}
-function getRepeatDates(days){
-  const dates=[],last=new Date(cY,cM+1,0).getDate();
-  for(let d=1;d<=last;d++){
-    const dt=new Date(cY,cM,d);
-    if(days.includes(dt.getDay()))dates.push(fmtD(dt));
-  }
+function getChecked(sel){return [...document.querySelectorAll(sel+':checked')].map(cb=>parseInt(cb.value))}
+function repeatDatesInMonth(y,m,days){
+  const dates=[],last=new Date(y,m+1,0).getDate();
+  for(let d=1;d<=last;d++){const dt=new Date(y,m,d);if(days.includes(dt.getDay()))dates.push(fmtD(dt))}
   return dates;
 }
 function applyRepeat(){
-  const client=document.getElementById('r-client').value;
-  const start=document.getElementById('r-start').value;
-  const end=document.getElementById('r-end').value;
-  const notes=document.getElementById('r-notes').value.trim();
-  const checked=getCheckedDays();
-  if(!client){alert('Elige un cliente');return}
-  if(!checked.length){alert('Selecciona al menos un día');return}
-  const dates=getRepeatDates(checked);
+  const client=document.getElementById('r-client').value,start=document.getElementById('r-start').value,
+    end=document.getElementById('r-end').value,notes=document.getElementById('r-notes').value.trim();
+  const days=getChecked('.rd');
+  if(!client||!days.length){alert('Elige cliente y días');return}
+  const defaultNote=getC(client).notes||'';
+  const dates=repeatDatesInMonth(cY,cM,days);
   if(!mData.sessions)mData.sessions=[];
   let added=0;
   dates.forEach(date=>{
-    // avoid exact duplicates (mismo cliente+día+hora)
-    const dup=mData.sessions.find(s=>s.date===date&&s.client===client&&s.start===start&&s.end===end);
-    if(!dup){mData.sessions.push({id:mk(),date,client,start,end,notes});added++}
+    if(!mData.sessions.find(s=>s.date===date&&s.client===client&&s.start===start&&s.end===end)){
+      mData.sessions.push({id:mk(),date,client,start,end,notes,defaultNote});added++;
+    }
   });
-  saveAll();closeRepeat();renderStats();renderWeeks();
-  showToast('✓ '+added+' sesiones creadas');
+  saveAll();closeModal('repeat-overlay');renderStats();renderWeeks();showToast('✓ '+added+' sesiones creadas');
 }
 
-// ── RESUMEN ──
+// ── REPETIR VARIOS MESES ──
+function openRepeatMulti(){
+  fillSel('rm-client','');
+  document.getElementById('rm-start').value='';
+  document.getElementById('rm-end').value='';
+  document.getElementById('rm-notes').value='';
+  document.querySelectorAll('.rmd').forEach(cb=>cb.checked=false);
+  document.getElementById('rm-calc-box').classList.remove('show');
+  const pad=v=>String(v).padStart(2,'0');
+  document.getElementById('rm-from').value=cY+'-'+pad(cM+1);
+  document.getElementById('rm-to').value=cY+'-'+pad(cM+1);
+  document.getElementById('rm-preview').textContent='Selecciona días y rango de meses.';
+  document.getElementById('repeat-multi-overlay').classList.add('open');
+}
+function updRMCalc(){
+  const s=document.getElementById('rm-start').value,e=document.getElementById('rm-end').value,cl=document.getElementById('rm-client').value;
+  const h=calcH(s,e),box=document.getElementById('rm-calc-box');
+  if(h>0){box.textContent=fH(h)+' \u00d7 '+getC(cl).rate+'\u20ac/h = '+fE(h*getC(cl).rate)+' por sesión';box.classList.add('show')}
+  else box.classList.remove('show');
+  const days=getChecked('.rmd');
+  const from=document.getElementById('rm-from').value,to=document.getElementById('rm-to').value;
+  if(!days.length||!from||!to){document.getElementById('rm-preview').textContent='Selecciona días y rango de meses.';return}
+  const months=monthsInRange(from,to);
+  let total=0;months.forEach(([y,m])=>{total+=repeatDatesInMonth(y,m,days).length});
+  const totalE=total*h*getC(cl).rate;
+  document.getElementById('rm-preview').innerHTML=`<strong>${months.length} meses</strong> · <strong>${total} sesiones</strong> en total${h>0?' · '+fE(totalE)+' aprox.':''}`;
+}
+function monthsInRange(from,to){
+  const [fy,fm]=from.split('-').map(Number),[ty,tm]=to.split('-').map(Number);
+  const result=[];let y=fy,m=fm-1;
+  while(y<ty||(y===ty&&m<=tm-1)){result.push([y,m]);m++;if(m>11){m=0;y++}}
+  return result;
+}
+function applyRepeatMulti(){
+  const client=document.getElementById('rm-client').value,start=document.getElementById('rm-start').value,
+    end=document.getElementById('rm-end').value,notes=document.getElementById('rm-notes').value.trim();
+  const days=getChecked('.rmd');
+  const from=document.getElementById('rm-from').value,to=document.getElementById('rm-to').value;
+  if(!client||!days.length||!from||!to){alert('Completa todos los campos');return}
+  const defaultNote=getC(client).notes||'';
+  const months=monthsInRange(from,to);
+  let totalAdded=0;
+  months.forEach(([y,m])=>{
+    const data=loadMD(m,y);
+    if(!data.sessions)data.sessions=[];
+    const dates=repeatDatesInMonth(y,m,days);
+    dates.forEach(date=>{
+      if(!data.sessions.find(s=>s.date===date&&s.client===client&&s.start===start&&s.end===end)){
+        data.sessions.push({id:mk(),date,client,start,end,notes,defaultNote});totalAdded++;
+      }
+    });
+    saveMD(m,y,data);
+  });
+  mData=loadMD(cM,cY);
+  closeModal('repeat-multi-overlay');renderStats();renderWeeks();
+  showToast('✓ '+totalAdded+' sesiones en '+months.length+' meses');
+}
+
+// ── RESUMEN con cobros por sesión ──
+function cobTotalClient(cobros,name){
+  return((cobros[name]||[]).reduce((a,p)=>a+p.amount,0));
+}
 function renderResumen(){
   const ss=mData.sessions||[],cob=loadCob(cM,cY),agg={};
   ss.forEach(s=>{if(!s.client)return;const h=calcH(s.start,s.end),e=h*getC(s.client).rate;if(!agg[s.client])agg[s.client]={h:0,e:0,n:0};agg[s.client].h+=h;agg[s.client].e+=e;agg[s.client].n++});
   const rows=Object.entries(agg).sort((a,b)=>b[1].e-a[1].e);
   let tH=0,tE=0,tC=0;
-  rows.forEach(([n,v])=>{tH+=v.h;tE+=v.e;tC+=Math.min(parseFloat(cob[n]||0),v.e)});
+  rows.forEach(([n,v])=>{tH+=v.h;tE+=v.e;tC+=Math.min(cobTotalClient(cob,n),v.e)});
   const pend=tE-tC;
   const notes=loadNotes(cM,cY);
-
   let html=`
     <div class="stats-row">
       <div class="stat"><div class="lbl">Total horas</div><div class="val">${tH.toFixed(1)}</div></div>
-      <div class="stat"><div class="lbl">Facturado</div><div class="val">${tE.toFixed(0)} \u20ac</div></div>
-      <div class="stat"><div class="lbl">Cobrado</div><div class="val" style="color:var(--green)">${tC.toFixed(0)} \u20ac</div></div>
-      <div class="stat"><div class="lbl">Pendiente</div><div class="val" style="color:${pend>0.01?'var(--red)':'var(--green)'}">${pend.toFixed(0)} \u20ac</div></div>
+      <div class="stat"><div class="lbl">Facturado</div><div class="val">${tE.toFixed(0)}\u20ac</div></div>
+      <div class="stat"><div class="lbl">Cobrado</div><div class="val" style="color:var(--green)">${tC.toFixed(0)}\u20ac</div></div>
+      <div class="stat"><div class="lbl">Pendiente</div><div class="val" style="color:${pend>0.01?'var(--red)':'var(--green)'}">${pend.toFixed(0)}\u20ac</div></div>
     </div>`;
-
-  if(notes){html+=`<div style="background:#fffbea;border:1px solid #e9c46a;border-radius:var(--r);padding:10px 14px;margin-bottom:14px;font-size:13px;color:#7a5c00">📝 <strong>Notas:</strong> ${esc(notes)}</div>`}
-
-  html+=`<div style="font-size:15px;font-weight:700;margin-bottom:12px">Cobros por cliente \u2014 ${MONTHS[cM]} ${cY}</div>`;
+  if(notes)html+=`<div style="background:#fffbea;border:1px solid #e9c46a;border-radius:var(--r);padding:10px 14px;margin-bottom:14px;font-size:13px;color:#7a5c00">📝 <strong>Notas:</strong> ${esc(notes)}</div>`;
+  html+=`<div class="section-title">Cobros por cliente \u2014 ${MONTHS[cM]} ${cY}</div>`;
   if(!rows.length)html+=`<div class="empty"><div class="ico">📊</div>Sin sesiones este mes</div>`;
 
   rows.forEach(([name,v])=>{
-    const c=getC(name),paid=parseFloat(cob[name]||0),p=Math.max(0,v.e-paid),ok=p<0.01;
-    const iid='ci_'+name.replace(/\W/g,'_');
+    const c=getC(name);
+    const pagos=cob[name]||[];
+    const totalPagado=pagos.reduce((a,p)=>a+p.amount,0);
+    const pend2=Math.max(0,v.e-totalPagado);
+    const ok=pend2<0.01;
     html+=`
     <div class="client-card" style="border:2px solid ${ok?'#b7dfca':'#f5c6c0'}">
       <div class="card-head" style="background:${ok?'var(--green-light)':'var(--red-light)'}">
@@ -618,30 +735,71 @@ function renderResumen(){
           <div class="card-avatar" style="background:${c.color}">${name[0]}</div>
           <div><div class="card-name">${name}</div><div class="card-sub">${v.n} sesión${v.n!==1?'es':''} \u00b7 ${fH(v.h)}</div></div>
         </div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <div class="card-amount">${fE(v.e)}</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <div style="text-align:right">
+            <div class="card-amount">${fE(v.e)}</div>
+            ${totalPagado>0?`<div style="font-size:11px;color:var(--green);font-weight:600">Cobrado: ${fE(totalPagado)}</div>`:''}
+          </div>
           <span class="${ok?'badge-ok':'badge-no'}">${ok?'✓ COBRADO':'PENDIENTE'}</span>
         </div>
       </div>
       <div class="card-body">
-        <div style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px">¿Cuánto ha pagado?</div>
-        <div class="cobro-row">
-          <input type="number" class="cobro-inp" id="${iid}" value="${paid.toFixed(2)}" min="0" max="${v.e.toFixed(2)}" step="0.01">
-          <button class="btn-save" onclick="guardarCobro('${name}','${iid}')">💾 Guardar</button>
+        ${pagos.length?`<div style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Pagos registrados</div>
+        <div class="pagos-list">
+          ${pagos.map(p=>`
+          <div class="pago-row">
+            <span class="pa">${fE(p.amount)}</span>
+            <span class="pd">${p.date||''}${p.note?' · '+esc(p.note):''}</span>
+            <button class="pdel" onclick="deletePago('${name}','${p.id}')" title="Eliminar este pago">🗑</button>
+          </div>`).join('')}
+        </div>`:''}
+        <div style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">${pagos.length?'Añadir otro pago':'Registrar pago'}</div>
+        <div class="add-pago-row">
+          <input type="number" class="pago-inp" id="pi_${name.replace(/\W/g,'_')}" placeholder="Importe €" min="0" step="0.01">
+          <input type="date" class="pago-date-inp" id="pd_${name.replace(/\W/g,'_')}" value="${fmtD(new Date())}">
+          <button class="btn" onclick="addPago('${name}')" style="padding:9px 14px">+ Añadir</button>
         </div>
-        ${!ok
-          ?`<button class="btn-full green" onclick="cobrarTodo('${name}',${v.e},'${iid}')">✓ Marcar todo cobrado \u2014 ${fE(v.e)}</button>`
-          :`<button class="btn-full ghost" onclick="cobrarTodo('${name}',0,'${iid}')">✕ Deshacer cobro</button>`}
-        ${paid>0&&!ok?`<div class="pend-row"><span style="color:var(--text2)">Aún pendiente</span><strong style="color:var(--red)">${fE(p)}</strong></div>`:''}
+        ${!ok?`<button class="btn-full green" style="margin-bottom:6px" onclick="pagarTodo('${name}',${v.e})">✓ Marcar todo cobrado \u2014 ${fE(v.e)}</button>`:''}
+        ${ok?`<button class="btn-full ghost" onclick="borrarPagos('${name}')">✕ Deshacer todos los cobros</button>`:''}
+        ${totalPagado>0&&!ok?`<div class="pend-row"><span style="color:var(--text2)">Aún pendiente</span><strong style="color:var(--red)">${fE(pend2)}</strong></div>`:''}
       </div>
     </div>`;
   });
 
   html+=`<div class="sess-list">
-    <div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text2)">TODAS LAS SESIONES \u2014 ${MONTHS[cM]} ${cY}</div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text2)">SESIONES \u2014 ${MONTHS[cM]} ${cY}</div>
     ${buildSessList(ss)}</div>`;
-
   document.getElementById('resumen-body').innerHTML=html;
+}
+
+function addPago(name){
+  const key=name.replace(/\W/g,'_');
+  const amount=parseFloat(document.getElementById('pi_'+key).value)||0;
+  const date=document.getElementById('pd_'+key).value;
+  if(!amount){alert('Introduce un importe');return}
+  const cob=loadCob(cM,cY);
+  if(!cob[name])cob[name]=[];
+  cob[name].push({id:mk(),amount,date,note:''});
+  saveCob(cM,cY,cob);renderResumen();showToast('✓ Pago de '+fE(amount)+' registrado');
+}
+function deletePago(name,pid){
+  const cob=loadCob(cM,cY);
+  if(!cob[name])return;
+  cob[name]=cob[name].filter(p=>p.id!==pid);
+  saveCob(cM,cY,cob);renderResumen();showToast('🗑 Pago eliminado');
+}
+function pagarTodo(name,total){
+  const cob=loadCob(cM,cY);
+  if(!cob[name])cob[name]=[];
+  const yaP=cob[name].reduce((a,p)=>a+p.amount,0);
+  const resto=Math.max(0,total-yaP);
+  if(resto<0.01){showToast('Ya está todo cobrado');return}
+  cob[name].push({id:mk(),amount:parseFloat(resto.toFixed(2)),date:fmtD(new Date()),note:'Liquidado'});
+  saveCob(cM,cY,cob);renderResumen();showToast('✓ Cobro completo registrado');
+}
+function borrarPagos(name){
+  const cob=loadCob(cM,cY);cob[name]=[];
+  saveCob(cM,cY,cob);renderResumen();showToast('Cobros eliminados');
 }
 
 function buildSessList(ss){
@@ -652,29 +810,18 @@ function buildSessList(ss){
     const lbl=DS[dt.getDay()]+' '+day+' '+MONTHS[m-1].slice(0,3);
     const rows=byD[d].map(s=>{
       const h=calcH(s.start,s.end),e=h*getC(s.client).rate,c=getC(s.client);
+      const allNotes=[s.defaultNote,s.notes].filter(Boolean).join(' · ');
       return`<div class="sess-row">
         <span class="dot" style="background:${c.color}"></span>
         <span style="font-weight:700;min-width:90px">${s.client}</span>
         <span style="color:var(--text3);font-family:'JetBrains Mono',monospace;font-size:11px;min-width:105px">${s.start||'\u2014'} \u2013 ${s.end||'\u2014'}</span>
         <span style="font-family:'JetBrains Mono',monospace;font-size:11px;min-width:55px">${fH(h)}</span>
         <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);font-weight:700;min-width:70px">${fE(e)}</span>
-        <span style="color:var(--text3);font-style:italic;font-size:11px">${s.notes||''}</span>
+        <span style="color:var(--text3);font-style:italic;font-size:11px">${allNotes}</span>
       </div>`;
     }).join('');
     return`<div style="margin-bottom:10px"><div class="sess-day-label">${lbl}</div>${rows}</div>`;
   }).join('');
-}
-
-function guardarCobro(name,iid){
-  const val=document.getElementById(iid).value;
-  const cob=loadCob(cM,cY);cob[name]=parseFloat(val)||0;
-  saveCob(cM,cY,cob);renderResumen();showToast('✓ Cobro guardado');
-}
-function cobrarTodo(name,amount,iid){
-  document.getElementById(iid).value=amount.toFixed(2);
-  const cob=loadCob(cM,cY);cob[name]=amount;
-  saveCob(cM,cY,cob);renderResumen();
-  showToast(amount>0?'✓ Marcado como cobrado':'Cobro deshecho');
 }
 
 // ── CLIENTS CONFIG ──
@@ -683,8 +830,8 @@ function renderClientsConf(){
     <tr>
       <td><input type="color" value="${c.color}" onchange="clients[${i}].color=this.value" style="width:34px;height:28px;padding:2px;border:1px solid var(--border);border-radius:5px;cursor:pointer;background:transparent"></td>
       <td><input type="text" value="${esc(c.name)}" onchange="clients[${i}].name=this.value.toUpperCase().trim()"></td>
-      <td><input type="number" value="${c.rate}" min="0" step="0.5" style="width:80px" onchange="clients[${i}].rate=parseFloat(this.value)||0"></td>
-      <td><input type="text" value="${esc(c.notes||'')}" placeholder="Notas..." onchange="clients[${i}].notes=this.value"></td>
+      <td><input type="number" value="${c.rate}" min="0" step="0.5" style="width:75px" onchange="clients[${i}].rate=parseFloat(this.value)||0"></td>
+      <td><input type="text" value="${esc(c.notes||'')}" placeholder="Ej: a fin de mes, pagado..." onchange="clients[${i}].notes=this.value"></td>
       <td><button onclick="removeClient(${i})" style="background:transparent;border:1px solid var(--border);color:var(--text3);width:28px;height:28px;border-radius:5px;cursor:pointer;font-size:15px" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text3)'">×</button></td>
     </tr>`).join('');
 }
@@ -696,7 +843,7 @@ function saveClients(){saveClientsData();renderWeeks();showToast('✓ Clientes g
 function renderHistorial(){
   const entries=[];
   for(let k in localStorage){
-    if(k.startsWith('lh3_')&&!k.includes('cob')&&!k.includes('clients')&&!k.includes('notes')){
+    if(k.startsWith('lh4_')&&!k.includes('cob')&&!k.includes('clients')&&!k.includes('notes')){
       const p=k.split('_');if(p.length===3){
         const y=parseInt(p[1]),m=parseInt(p[2]);
         const d=JSON.parse(localStorage.getItem(k)||'{}');
@@ -710,10 +857,8 @@ function renderHistorial(){
   if(!entries.length){cont.innerHTML='<div class="empty"><div class="ico">🗂</div>No hay meses guardados aún</div>';return}
   cont.innerHTML=entries.map(e=>`
     <div class="hist-row" onclick="goMonth(${e.m},${e.y})">
-      <div>
-        <div style="font-weight:700;font-size:16px">${MONTHS[e.m]} ${e.y}</div>
-        <div style="color:var(--text2);font-size:12px;margin-top:2px">${e.tH.toFixed(1)} h</div>
-      </div>
+      <div><div style="font-weight:700;font-size:16px">${MONTHS[e.m]} ${e.y}</div>
+      <div style="color:var(--text2);font-size:12px;margin-top:2px">${e.tH.toFixed(1)} h</div></div>
       <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:var(--accent)">${fE(e.tE)}</div>
     </div>`).join('');
 }
@@ -725,88 +870,85 @@ function goMonth(m,y){
   document.getElementById('page-registro').classList.add('active');
 }
 
-// ── SAVE / EXPORT ──
 function saveAll(){saveMD(cM,cY,mData)}
 setInterval(()=>{if(mData)saveAll()},30000);
 
 function exportCSV(){
   const ss=(mData.sessions||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
-  const cob=loadCob(cM,cY);
-  const rows=[['Fecha','Dia','Cliente','Inicio','Fin','Horas','EuroHora','TotalEuro','Notas']];
+  const rows=[['Fecha','Dia','Cliente','Inicio','Fin','Horas','EuroHora','Total','NotaDia','NotaDefecto']];
   ss.forEach(s=>{
     const dt=new Date(s.date+'T12:00'),h=calcH(s.start,s.end),r=getC(s.client).rate;
-    rows.push([s.date,DS[dt.getDay()],s.client,s.start||'',s.end||'',h.toFixed(2).replace('.',','),r.toFixed(2).replace('.',','),(h*r).toFixed(2).replace('.',','),s.notes||'']);
+    rows.push([s.date,DS[dt.getDay()],s.client,s.start||'',s.end||'',h.toFixed(2).replace('.',','),r.toFixed(2).replace('.',','),(h*r).toFixed(2).replace('.',','),s.notes||'',s.defaultNote||'']);
   });
   const csv=rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(';')).join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
   a.download=`horas_${MONTHS[cM]}_${cY}.csv`;a.click();showToast('\u2b07 CSV descargado');
 }
-
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
 
 // ── SEED DATA ──
 function seedData(){
   function seed(key,sessions){if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify({sessions}))}
-  function s(d,c,st,en,n=''){return{id:mk(),date:d,client:c,start:st,end:en,notes:n}}
-  seed('lh3_2026_00',[
+  function s(d,c,st,en,n='',dn=''){return{id:mk(),date:d,client:c,start:st,end:en,notes:n,defaultNote:dn}}
+  const pDef='A fin de MES',aDef='A fin de MES';
+  seed('lh4_2026_00',[
     s('2025-12-31','PAF','10:00','12:30'),s('2026-01-02','PAF','10:00','12:30'),s('2026-01-03','PAF','10:00','12:30'),
-    s('2026-01-05','PAULA','09:00','12:00','A fin de MES'),s('2026-01-05','VICTORIA','12:30','16:00'),s('2026-01-05','PAF','17:00','19:30'),
+    s('2026-01-05','PAULA','09:00','12:00','',pDef),s('2026-01-05','VICTORIA','12:30','16:00'),s('2026-01-05','PAF','17:00','19:30'),
     s('2026-01-06','GUILLERMO','09:00','12:00'),s('2026-01-06','CARLOS','13:00','16:00'),
-    s('2026-01-07','PAULA','09:00','12:00','A fin de MES'),s('2026-01-07','PAF','17:00','19:30'),
-    s('2026-01-08','ANA','09:00','12:00'),s('2026-01-10','PAF','17:00','19:30'),
-    s('2026-01-12','PAULA','09:00','12:00','A fin de MES'),s('2026-01-12','VICTORIA','13:00','15:30'),s('2026-01-12','LUCIA','16:30','18:30'),s('2026-01-12','ROM','15:00','16:00'),
+    s('2026-01-07','PAULA','09:00','12:00','',pDef),s('2026-01-07','PAF','17:00','19:30'),
+    s('2026-01-08','ANA','09:00','12:00','',aDef),s('2026-01-10','PAF','17:00','19:30'),
+    s('2026-01-12','PAULA','09:00','12:00','',pDef),s('2026-01-12','VICTORIA','13:00','15:30'),s('2026-01-12','LUCIA','16:30','18:30'),s('2026-01-12','ROM','15:00','16:00'),
     s('2026-01-13','VIKI','09:00','13:00'),s('2026-01-13','LEO','14:00','16:30'),
     s('2026-01-14','FABIO','09:00','12:00'),s('2026-01-14','GUILLERMO','13:00','16:00'),s('2026-01-14','PAF','17:00','19:30'),
-    s('2026-01-15','PAULA','09:00','12:00','A fin de MES'),s('2026-01-15','LEO','14:00','16:30'),
-    s('2026-01-16','DOLORES','09:30','12:30'),s('2026-01-16','ANA','12:45','15:45'),s('2026-01-16','PAF','17:00','19:30'),
-    s('2026-01-19','PAULA','09:00','12:00','A fin de MES'),s('2026-01-19','VICTORIA','12:30','15:00'),s('2026-01-19','ROM','15:00','16:00'),
+    s('2026-01-15','PAULA','09:00','12:00','',pDef),s('2026-01-15','LEO','14:00','16:30'),
+    s('2026-01-16','DOLORES','09:30','12:30'),s('2026-01-16','ANA','12:45','15:45','',aDef),s('2026-01-16','PAF','17:00','19:30'),
+    s('2026-01-19','PAULA','09:00','12:00','',pDef),s('2026-01-19','VICTORIA','12:30','15:00'),s('2026-01-19','ROM','15:00','16:00'),
     s('2026-01-20','GUILLERMO','10:00','13:00'),s('2026-01-20','LEO','14:00','16:30'),
-    s('2026-01-22','PAULA','09:00','12:00','A fin de MES'),s('2026-01-22','PAF','17:00','19:30'),
-    s('2026-01-23','ANA','09:30','12:30'),s('2026-01-23','PAF','17:00','19:30'),
-    s('2026-01-26','PAULA','09:00','12:00','A fin de MES'),s('2026-01-26','LEO','14:00','18:00'),s('2026-01-26','ROM','15:30','16:30'),
+    s('2026-01-22','PAULA','09:00','12:00','',pDef),s('2026-01-22','PAF','17:00','19:30'),
+    s('2026-01-23','ANA','09:30','12:30','',aDef),s('2026-01-23','PAF','17:00','19:30'),
+    s('2026-01-26','PAULA','09:00','12:00','',pDef),s('2026-01-26','LEO','14:00','18:00'),s('2026-01-26','ROM','15:30','16:30'),
     s('2026-01-27','VIKI','10:00','14:00'),s('2026-01-27','LEO','14:00','17:30'),
-    s('2026-01-29','PAULA','09:00','12:00','A fin de MES'),s('2026-01-29','PAF','17:00','19:30'),
+    s('2026-01-29','PAULA','09:00','12:00','',pDef),s('2026-01-29','PAF','17:00','19:30'),
     s('2026-01-30','GUILLERMO','10:00','13:00'),s('2026-01-30','PAF','17:00','19:30'),
   ]);
-  seed('lh3_2026_01',[
-    s('2026-02-02','PAULA','10:30','13:30'),s('2026-02-02','LUCIA','16:30','17:30'),s('2026-02-02','LEO','14:00','17:00'),
+  seed('lh4_2026_01',[
+    s('2026-02-02','PAULA','10:30','13:30','',pDef),s('2026-02-02','LUCIA','16:30','17:30'),s('2026-02-02','LEO','14:00','17:00'),
     s('2026-02-03','CARLOS','10:00','13:00'),s('2026-02-03','ROM','12:00','13:30'),
     s('2026-02-04','GUILLERMO','14:00','17:00'),s('2026-02-04','LEO','14:00','16:30'),
-    s('2026-02-05','PAULA','10:00','13:00'),s('2026-02-05','PAF','15:00','17:00'),
-    s('2026-02-06','ANA','11:00','14:00'),s('2026-02-06','PAF','15:00','17:00'),
-    s('2026-02-09','PAULA','10:30','13:30'),s('2026-02-09','ROM','14:00','15:00'),s('2026-02-09','LEO','14:00','16:30'),
+    s('2026-02-05','PAULA','10:00','13:00','',pDef),s('2026-02-05','PAF','15:00','17:00'),
+    s('2026-02-06','ANA','11:00','14:00','',aDef),s('2026-02-06','PAF','15:00','17:00'),
+    s('2026-02-09','PAULA','10:30','13:30','',pDef),s('2026-02-09','ROM','14:00','15:00'),s('2026-02-09','LEO','14:00','16:30'),
     s('2026-02-10','VIKI','09:30','13:30'),s('2026-02-10','LEO','14:00','17:00'),
     s('2026-02-11','GUILLERMO','11:00','14:00'),s('2026-02-11','PAF','14:30','16:30'),
-    s('2026-02-12','PAULA','10:00','13:00'),s('2026-02-12','CARLOS','12:30','15:30'),
-    s('2026-02-13','ANA','09:00','12:00'),s('2026-02-13','PAF','15:00','16:30'),
-    s('2026-02-16','PAULA','09:00','12:00'),s('2026-02-16','ROM','15:00','16:00'),
+    s('2026-02-12','PAULA','10:00','13:00','',pDef),s('2026-02-12','CARLOS','12:30','15:30'),
+    s('2026-02-13','ANA','09:00','12:00','',aDef),s('2026-02-13','PAF','15:00','16:30'),
+    s('2026-02-16','PAULA','09:00','12:00','',pDef),s('2026-02-16','ROM','15:00','16:00'),
     s('2026-02-17','LEO','08:00','10:30'),
     s('2026-02-18','GUILLERMO','11:00','14:00'),s('2026-02-18','LEO','08:00','10:30'),s('2026-02-18','PAF','14:30','16:30'),
-    s('2026-02-19','PAULA','10:40','13:40'),s('2026-02-20','ANA','10:00','13:00'),s('2026-02-21','PAF','19:00','20:30'),
-    s('2026-02-23','PAULA','10:00','13:00'),s('2026-02-23','LEO','08:00','09:30'),s('2026-02-23','ROM','15:30','16:30'),
+    s('2026-02-19','PAULA','10:40','13:40','',pDef),s('2026-02-20','ANA','10:00','13:00','',aDef),s('2026-02-21','PAF','19:00','20:30'),
+    s('2026-02-23','PAULA','10:00','13:00','',pDef),s('2026-02-23','LEO','08:00','09:30'),s('2026-02-23','ROM','15:30','16:30'),
     s('2026-02-24','VIKI','10:10','14:10'),s('2026-02-24','CARLOS','09:00','12:00'),
     s('2026-02-25','GUILLERMO','13:00','16:00'),s('2026-02-25','LEO','08:30','10:30'),
-    s('2026-02-26','PAULA','10:35','13:35'),s('2026-02-26','ANA','09:00','12:00'),s('2026-02-27','PAF','11:00','13:00'),
+    s('2026-02-26','PAULA','10:35','13:35','',pDef),s('2026-02-26','ANA','09:00','12:00','',aDef),s('2026-02-27','PAF','11:00','13:00'),
   ]);
-  seed('lh3_2026_02',[
-    s('2026-03-02','PAULA','10:00','13:00'),s('2026-03-02','ROM','14:00','15:00'),s('2026-03-02','LEO','08:00','10:30'),
+  seed('lh4_2026_02',[
+    s('2026-03-02','PAULA','10:00','13:00','',pDef),s('2026-03-02','ROM','14:00','15:00'),s('2026-03-02','LEO','08:00','10:30'),
     s('2026-03-03','VIKI','11:10','15:10'),s('2026-03-03','LEO','08:00','10:30'),
-    s('2026-03-04','GUILLERMO','13:00','16:00'),s('2026-03-05','PAULA','09:00','12:00'),s('2026-03-07','PAF','17:30','20:00'),
+    s('2026-03-04','GUILLERMO','13:00','16:00'),s('2026-03-05','PAULA','09:00','12:00','',pDef),s('2026-03-07','PAF','17:30','20:00'),
     s('2026-03-09','LEO','08:30','11:00'),s('2026-03-09','LEO','14:00','16:30'),s('2026-03-10','FABIO','15:00','18:00'),
-    s('2026-03-11','PAULA','11:00','14:00'),s('2026-03-11','GUILLERMO','14:00','17:00'),
-    s('2026-03-12','ANA','10:00','13:00'),s('2026-03-12','PAF','16:00','18:30'),s('2026-03-13','PAF','17:00','19:30'),
-    s('2026-03-16','PAULA','10:00','13:00'),s('2026-03-16','ROM','15:00','16:00'),s('2026-03-17','VIKI','10:00','14:00'),
+    s('2026-03-11','PAULA','11:00','14:00','',pDef),s('2026-03-11','GUILLERMO','14:00','17:00'),
+    s('2026-03-12','ANA','10:00','13:00','',aDef),s('2026-03-12','PAF','16:00','18:30'),s('2026-03-13','PAF','17:00','19:30'),
+    s('2026-03-16','PAULA','10:00','13:00','',pDef),s('2026-03-16','ROM','15:00','16:00'),s('2026-03-17','VIKI','10:00','14:00'),
     s('2026-03-18','GUILLERMO','11:00','14:00'),s('2026-03-19','VICTORIA','11:00','13:00'),s('2026-03-19','CARLOS','13:00','17:30'),
-    s('2026-03-20','ANA','09:30','12:30'),s('2026-03-20','PAF','16:00','18:00'),
-    s('2026-03-23','PAULA','11:00','14:00'),s('2026-03-23','LEO','08:30','11:00'),
-    s('2026-03-24','ANA','12:00','17:00'),s('2026-03-24','LEO','08:30','11:00'),
+    s('2026-03-20','ANA','09:30','12:30','',aDef),s('2026-03-20','PAF','16:00','18:00'),
+    s('2026-03-23','PAULA','11:00','14:00','',pDef),s('2026-03-23','LEO','08:30','11:00'),
+    s('2026-03-24','ANA','12:00','17:00','',aDef),s('2026-03-24','LEO','08:30','11:00'),
     s('2026-03-25','GUILLERMO','10:00','13:00'),s('2026-03-25','PAF','14:00','15:30'),
-    s('2026-03-26','PAULA','11:30','14:30'),s('2026-03-26','LEO','08:30','10:00'),
+    s('2026-03-26','PAULA','11:30','14:30','',pDef),s('2026-03-26','LEO','08:30','10:00'),
     s('2026-03-27','ROM','11:00','12:00'),s('2026-03-27','PAF','14:00','16:30'),
     s('2026-03-30','LUCIA','16:30','17:30'),s('2026-03-31','VIKI','11:10','15:10'),
   ]);
 }
-
 init();
 </script>
 </body>
