@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lidia · Mis Horas</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -159,6 +160,22 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
 <main>
 
 <!-- REGISTRO -->
+<!-- BACKUP REMINDER -->
+<div id="backup-reminder" style="display:none;background:#fffbea;border:1px solid #e9c46a;border-radius:var(--r);padding:11px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;box-shadow:var(--shadow)">
+  <span style="font-size:13px;color:#7a5c00">⚠️ <strong id="backup-reminder-msg">Hace más de 7 días que no haces backup.</strong> No pierdas tus datos.</span>
+  <div style="display:flex;gap:8px">
+    <button class="btn" onclick="exportBackup()" style="padding:7px 14px;font-size:12px">💾 Backup ahora</button>
+    <button class="btn sec" onclick="document.getElementById('backup-reminder').style.display='none'" style="padding:7px 10px;font-size:12px">✕</button>
+  </div>
+</div>
+<!-- EMAIL BACKUP REMINDER -->
+<div id="email-reminder" style="display:none;background:#e0f2fe;border:1px solid #7dd3fc;border-radius:var(--r);padding:11px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;box-shadow:var(--shadow)">
+  <span style="font-size:13px;color:#0369a1">📧 <strong>Es fin de mes.</strong> ¿Enviar backup a tu correo?</span>
+  <div style="display:flex;gap:8px">
+    <button class="btn" onclick="sendEmailBackup(true)" style="padding:7px 14px;font-size:12px;background:#0369a1">📧 Enviar ahora</button>
+    <button class="btn sec" onclick="document.getElementById('email-reminder').style.display='none'" style="padding:7px 10px;font-size:12px">✕</button>
+  </div>
+</div>
 <div id="page-registro" class="page active">
   <div class="top-bar">
     <button class="btn-icon" id="prev-m">◀</button>
@@ -166,6 +183,7 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
     <button class="btn-icon" id="next-m">▶</button>
     <div class="spacer"></div>
     <button class="btn sec" onclick="exportBackup()">💾 <span>Backup</span></button>
+    <button class="btn sec" onclick="sendEmailBackup()">📧 <span>Email</span></button>
     <label class="btn sec" style="cursor:pointer" title="Importar copia de seguridad">📂 <span>Importar</span><input type="file" id="import-file" accept=".json" onchange="importBackup(event)" style="display:none"></label>
     <button class="btn sec" onclick="openRepeat()">🔁 <span>Repetir</span></button>
     <button class="btn sec" onclick="openRepeatMulti()">📅 <span>Varios meses</span></button>
@@ -275,6 +293,14 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
           <label class="day-check"><input type="checkbox" class="rd" value="0"><span>Dom</span></label>
         </div>
       </div>
+      <div class="field">
+        <label>Frecuencia</label>
+        <select id="r-freq" onchange="updRCalc()">
+          <option value="1">Todas las semanas</option>
+          <option value="2">Cada 2 semanas (semanas 1,3...)</option>
+          <option value="2b">Cada 2 semanas (semanas 2,4...)</option>
+        </select>
+      </div>
       <div class="field"><label>Nota (opcional)</label><input type="text" id="r-notes"></div>
       <div class="info-box" id="r-preview">Selecciona días para ver el resumen.</div>
     </div>
@@ -315,6 +341,14 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
           <div><label style="font-size:11px;color:var(--text3)">Hasta</label><input type="month" id="rm-to"></div>
         </div>
       </div>
+      <div class="field">
+        <label>Frecuencia</label>
+        <select id="rm-freq" onchange="updRMCalc()">
+          <option value="1">Todas las semanas</option>
+          <option value="2">Cada 2 semanas (semanas 1,3...)</option>
+          <option value="2b">Cada 2 semanas (semanas 2,4...)</option>
+        </select>
+      </div>
       <div class="field"><label>Nota (opcional)</label><input type="text" id="rm-notes"></div>
       <div class="info-box" id="rm-preview" style="border-color:#bae6fd;background:#e0f2fe;color:#0369a1">Selecciona días y rango de meses.</div>
     </div>
@@ -354,7 +388,7 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
 const MONTHS=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const DS=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 const CCOLORS=['#3b82f6','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#f97316','#84cc16','#ec4899','#6366f1','#14b8a6','#a855f7'];
-let cY,cM,mData,clients,editId=null,pendingDelId=null,anualYear=new Date().getFullYear();
+let cY,cM,mData,clients,editId=null,pendingDelId=null,anualYear=new Date().getFullYear(),pendingAction=null;
 
 // ── STORAGE ──
 function mk(){return '_'+Math.random().toString(36).slice(2,8)}
@@ -445,6 +479,8 @@ function init(){
   // annual nav
   document.getElementById('prev-yr').onclick=()=>{anualYear--;renderAnual()};
   document.getElementById('next-yr').onclick=()=>{anualYear++;renderAnual()};
+  checkBackupReminder();
+  checkEmailReminder();
   seedData();loadRender();
 }
 
@@ -613,10 +649,30 @@ function confirmDel(){
   document.getElementById('confirm-overlay').classList.add('open');
 }
 function doDelete(){
-  if(!pendingDelId)return;
-  mData.sessions=(mData.sessions||[]).filter(s=>s.id!==pendingDelId);
-  pendingDelId=null;editId=null;
-  saveAll();closeModal('confirm-overlay');renderStats();renderWeeks();showToast('🗑 Sesión eliminada');
+  // Handle session delete (legacy)
+  if(pendingDelId){
+    mData.sessions=(mData.sessions||[]).filter(s=>s.id!==pendingDelId);
+    pendingDelId=null;editId=null;
+    saveAll();closeModal('confirm-overlay');renderStats();renderWeeks();showToast('🗑 Sesión eliminada');
+    return;
+  }
+  // Handle other actions
+  if(!pendingAction){closeModal('confirm-overlay');return;}
+  const a=pendingAction;pendingAction=null;
+  if(a.type==='pago'){
+    const cob=loadCob(cM,cY);
+    if(cob[a.name])cob[a.name]=cob[a.name].filter(p=>p.id!==a.pid);
+    saveCob(cM,cY,cob);closeModal('confirm-overlay');renderResumen();showToast('🗑 Pago eliminado');
+  } else if(a.type==='borrarPagos'){
+    const cob=loadCob(cM,cY);cob[a.name]=[];
+    saveCob(cM,cY,cob);closeModal('confirm-overlay');renderResumen();showToast('🗑 Cobros eliminados');
+  } else if(a.type==='removeClient'){
+    clients.splice(a.i,1);closeModal('confirm-overlay');renderClientsConf();showToast('🗑 Cliente eliminado');
+  } else if(a.type==='clearMonth'){
+    mData={sessions:[]};saveAll();
+    saveCob(cM,cY,{});saveNotesData(cM,cY,'');
+    closeModal('confirm-overlay');closeModal('clear-month-overlay');loadRender();showToast('🗑 Mes borrado');
+  }
 }
 
 // ── BORRAR MES ──
@@ -625,13 +681,9 @@ function openClearMonth(){
   document.getElementById('clear-month-overlay').classList.add('open');
 }
 function doClearMonth(){
-  mData={sessions:[]};
-  saveAll();
-  saveCob(cM,cY,{});
-  saveNotesData(cM,cY,'');
-  closeModal('clear-month-overlay');
-  loadRender();
-  showToast('🗑 Mes borrado');
+  pendingAction={type:'clearMonth'};
+  document.getElementById('confirm-detail').textContent='Borrar TODAS las sesiones, cobros y notas de '+MONTHS[cM]+' '+cY;
+  document.getElementById('confirm-overlay').classList.add('open');
 }
 
 // ── REPETIR 1 MES ──
@@ -652,14 +704,28 @@ function updRCalc(){
   else box.classList.remove('show');
   const days=getChecked('.rd');
   if(!days.length){document.getElementById('r-preview').textContent='Selecciona al menos un día.';return}
-  const dates=repeatDatesInMonth(cY,cM,days);
+  const freq=document.getElementById('r-freq').value;
+  const dates=repeatDatesInMonth(cY,cM,days,freq);
   const total=dates.length*calcH(s,e)*getC(cl).rate;
   document.getElementById('r-preview').innerHTML=`Se crearán <strong>${dates.length} sesiones</strong> los <strong>${days.map(d=>DS[d]).join(', ')}</strong> de ${MONTHS[cM]}${calcH(s,e)>0?' · Total: <strong>'+fE(total)+'</strong>':''}`;
 }
 function getChecked(sel){return [...document.querySelectorAll(sel+':checked')].map(cb=>parseInt(cb.value))}
-function repeatDatesInMonth(y,m,days){
+function repeatDatesInMonth(y,m,days,freq){
+  // freq: '1'=every week, '2'=odd weeks(1,3..), '2b'=even weeks(2,4..)
   const dates=[],last=new Date(y,m+1,0).getDate();
-  for(let d=1;d<=last;d++){const dt=new Date(y,m,d);if(days.includes(dt.getDay()))dates.push(fmtD(dt))}
+  // find week number within month for each occurrence
+  const occCount={}; // day-of-week -> count of occurrences seen
+  days.forEach(d=>occCount[d]=0);
+  for(let d=1;d<=last;d++){
+    const dt=new Date(y,m,d);
+    const dow=dt.getDay();
+    if(!days.includes(dow))continue;
+    occCount[dow]=(occCount[dow]||0)+1;
+    const occ=occCount[dow]; // 1st, 2nd, 3rd... occurrence this month
+    if(freq==='2'&&occ%2===0)continue;  // skip even (keep 1,3,5)
+    if(freq==='2b'&&occ%2===1)continue; // skip odd (keep 2,4)
+    dates.push(fmtD(dt));
+  }
   return dates;
 }
 function applyRepeat(){
@@ -668,7 +734,8 @@ function applyRepeat(){
   const days=getChecked('.rd');
   if(!client||!days.length){alert('Elige cliente y días');return}
   const defaultNote=getC(client).notes||'';
-  const dates=repeatDatesInMonth(cY,cM,days);
+  const freq=document.getElementById('r-freq').value;
+  const dates=repeatDatesInMonth(cY,cM,days,freq);
   if(!mData.sessions)mData.sessions=[];
   let added=0;
   dates.forEach(date=>{
@@ -702,7 +769,8 @@ function updRMCalc(){
   const from=document.getElementById('rm-from').value,to=document.getElementById('rm-to').value;
   if(!days.length||!from||!to){document.getElementById('rm-preview').textContent='Selecciona días y rango de meses.';return}
   const months=monthsInRange(from,to);
-  let total=0;months.forEach(([y,m])=>{total+=repeatDatesInMonth(y,m,days).length});
+  const freqM=document.getElementById('rm-freq').value;
+  let total=0;months.forEach(([y,m])=>{total+=repeatDatesInMonth(y,m,days,freqM).length});
   const totalE=total*h*getC(cl).rate;
   document.getElementById('rm-preview').innerHTML=`<strong>${months.length} meses</strong> · <strong>${total} sesiones</strong> en total${h>0?' · '+fE(totalE)+' aprox.':''}`;
 }
@@ -724,7 +792,8 @@ function applyRepeatMulti(){
   months.forEach(([y,m])=>{
     const data=loadMD(m,y);
     if(!data.sessions)data.sessions=[];
-    const dates=repeatDatesInMonth(y,m,days);
+    const freqMM=document.getElementById('rm-freq').value;
+    const dates=repeatDatesInMonth(y,m,days,freqMM);
     dates.forEach(date=>{
       if(!data.sessions.find(s=>s.date===date&&s.client===client&&s.start===start&&s.end===end)){
         data.sessions.push({id:mk(),date,client,start,end,notes,defaultNote});totalAdded++;
@@ -821,10 +890,9 @@ function addPago(name){
   saveCob(cM,cY,cob);renderResumen();showToast('✓ Pago de '+fE(amount)+' registrado');
 }
 function deletePago(name,pid){
-  const cob=loadCob(cM,cY);
-  if(!cob[name])return;
-  cob[name]=cob[name].filter(p=>p.id!==pid);
-  saveCob(cM,cY,cob);renderResumen();showToast('🗑 Pago eliminado');
+  pendingAction={type:'pago',name,pid};
+  document.getElementById('confirm-detail').textContent='Eliminar el pago de '+name;
+  document.getElementById('confirm-overlay').classList.add('open');
 }
 function pagarTodo(name,total){
   const cob=loadCob(cM,cY);
@@ -836,8 +904,9 @@ function pagarTodo(name,total){
   saveCob(cM,cY,cob);renderResumen();showToast('✓ Cobro completo registrado');
 }
 function borrarPagos(name){
-  const cob=loadCob(cM,cY);cob[name]=[];
-  saveCob(cM,cY,cob);renderResumen();showToast('Cobros eliminados');
+  pendingAction={type:'borrarPagos',name};
+  document.getElementById('confirm-detail').textContent='Eliminar TODOS los cobros registrados de '+name;
+  document.getElementById('confirm-overlay').classList.add('open');
 }
 
 function buildSessList(ss){
@@ -874,19 +943,28 @@ function renderClientsConf(){
     </tr>`).join('');
 }
 function addClientRow(){clients.push({id:'c'+Date.now(),name:'NUEVO',rate:10,color:CCOLORS[clients.length%CCOLORS.length],notes:''});renderClientsConf()}
-function removeClient(i){if(!confirm('¿Eliminar?'))return;clients.splice(i,1);renderClientsConf()}
+function removeClient(i){
+  pendingAction={type:'removeClient',i};
+  document.getElementById('confirm-detail').textContent='Eliminar el cliente "'+clients[i].name+'"';
+  document.getElementById('confirm-overlay').classList.add('open');
+}
 function saveClients(){saveClientsData();renderWeeks();showToast('✓ Clientes guardados')}
 
 // ── HISTORIAL ──
 function renderHistorial(){
+  const seen=new Set();
   const entries=[];
   for(let k in localStorage){
     if((k.startsWith('lh4_')||k.startsWith('lh3_')||k.startsWith('lh2_'))&&!k.includes('cob')&&!k.includes('clients')&&!k.includes('notes')){
       const p=k.split('_');if(p.length===3){
         const y=parseInt(p[1]),m=parseInt(p[2]);
-        const d=JSON.parse(localStorage.getItem(k)||'{}');
+        const key=y+'_'+m;
+        if(seen.has(key))continue;
+        seen.add(key);
+        // Use loadMD which merges all versions
+        const d=loadMD(m,y);
         let tH=0,tE=0;(d.sessions||[]).forEach(s=>{const h=calcH(s.start,s.end);tH+=h;tE+=h*getC(s.client).rate});
-        entries.push({y,m,tH,tE});
+        if(tH>0||tE>0)entries.push({y,m,tH,tE});
       }
     }
   }
@@ -1053,7 +1131,91 @@ function renderPendientesAlert(){
 }
 
 // ── BACKUP EXPORT / IMPORT ──
+// ── EMAILJS CONFIG ──
+const EJ_SERVICE  = 'service_2y14uda';
+const EJ_TEMPLATE = 'template_8p254wi';
+const EJ_KEY      = 'Gw2rGL_SgL98Odv6w';
+emailjs.init(EJ_KEY);
+
+function sendEmailBackup(isAuto){
+  // Build backup JSON
+  const data={};
+  for(let k in localStorage){
+    if(k.startsWith('lh4_')||k.startsWith('lh3_')||k.startsWith('lh2_'))
+      data[k]=localStorage.getItem(k);
+  }
+  const json=JSON.stringify({version:4,exported:new Date().toISOString(),data});
+  const now=new Date();
+  const mes=MONTHS[now.getMonth()]+' '+now.getFullYear();
+  const label=isAuto?'automático':'manual';
+
+  // EmailJS has 50KB limit on template variables — we send summary + remind to also do local backup
+  // Build human-readable summary
+  let resumen='';
+  for(let m=0;m<12;m++){
+    const md=loadMD(m,now.getFullYear());
+    if(!(md.sessions||[]).length)continue;
+    let tH=0,tE=0;
+    md.sessions.forEach(s=>{const h=calcH(s.start,s.end);tH+=h;tE+=h*getC(s.client).rate});
+    resumen+=MONTHS[m]+': '+tH.toFixed(1)+'h · '+tE.toFixed(0)+' EUR\n';
+  }
+
+  const params={
+    mes: mes,
+    label: label,
+    resumen: resumen||'Sin datos',
+    datos: json.slice(0,4000), // EmailJS limit
+    fecha: now.toLocaleDateString('es-ES'),
+  };
+
+  showToast('📧 Enviando...');
+  emailjs.send(EJ_SERVICE, EJ_TEMPLATE, params)
+    .then(()=>{
+      localStorage.setItem('lh4_last_email_backup', new Date().toISOString());
+      showToast('✓ Backup enviado a tu correo');
+      document.getElementById('email-reminder').style.display='none';
+    })
+    .catch(err=>{
+      console.error(err);
+      showToast('❌ Error al enviar. Comprueba conexión.');
+    });
+}
+
+function checkEmailReminder(){
+  const last=localStorage.getItem('lh4_last_email_backup');
+  const banner=document.getElementById('email-reminder');
+  if(!banner)return;
+  const now=new Date();
+  const isLastDay=now.getDate()>=28;
+  if(!last&&isLastDay){
+    banner.style.display='flex';return;
+  }
+  if(last){
+    const lastDate=new Date(last);
+    const sameMonth=lastDate.getMonth()===now.getMonth()&&lastDate.getFullYear()===now.getFullYear();
+    if(!sameMonth&&isLastDay) banner.style.display='flex';
+    else banner.style.display='none';
+  }
+}
+
+function checkBackupReminder(){
+  const last=localStorage.getItem('lh4_last_backup');
+  const banner=document.getElementById('backup-reminder');
+  if(!last){
+    document.getElementById('backup-reminder-msg').textContent='Nunca has hecho un backup. ¡Hazlo ahora para no perder datos!';
+    banner.style.display='flex';return;
+  }
+  const days=Math.floor((new Date()-new Date(last))/(1000*60*60*24));
+  if(days>=7){
+    document.getElementById('backup-reminder-msg').textContent='Hace '+days+' días que no haces backup. No pierdas tus datos.';
+    banner.style.display='flex';
+  } else {
+    banner.style.display='none';
+  }
+}
 function exportBackup(){
+  localStorage.setItem('lh4_last_backup', new Date().toISOString());
+  document.getElementById('backup-reminder').style.display='none';
   const data={};
   for(let k in localStorage){
     if(k.startsWith('lh4_')||k.startsWith('lh3_')||k.startsWith('lh2_')){
