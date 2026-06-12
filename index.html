@@ -153,6 +153,7 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
     <button data-page="resumen">📊 <span>Resumen</span></button>
     <button data-page="clientes">👤 <span>Clientes</span></button>
     <button data-page="historial">🗂 <span>Historial</span></button>
+    <button data-page="anual">📈 <span>Anual</span></button>
   </nav>
 </header>
 <main>
@@ -164,6 +165,8 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
     <div class="month-label" id="mlabel">—</div>
     <button class="btn-icon" id="next-m">▶</button>
     <div class="spacer"></div>
+    <button class="btn sec" onclick="exportBackup()">💾 <span>Backup</span></button>
+    <label class="btn sec" style="cursor:pointer" title="Importar copia de seguridad">📂 <span>Importar</span><input type="file" id="import-file" accept=".json" onchange="importBackup(event)" style="display:none"></label>
     <button class="btn sec" onclick="openRepeat()">🔁 <span>Repetir</span></button>
     <button class="btn sec" onclick="openRepeatMulti()">📅 <span>Varios meses</span></button>
     <button class="btn" onclick="openAdd(null)">＋ <span>Añadir</span></button>
@@ -208,6 +211,15 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
   <p style="font-weight:700;font-size:16px;margin-bottom:4px">Historial</p>
   <p style="color:var(--text2);font-size:13px;margin-bottom:14px">Todos los meses guardados.</p>
   <div id="hist-body"></div>
+</div>
+<!-- ANUAL -->
+<div id="page-anual" class="page">
+  <div class="top-bar">
+    <button class="btn-icon" id="prev-yr">◀</button>
+    <div class="month-label" id="yr-label">—</div>
+    <button class="btn-icon" id="next-yr">▶</button>
+  </div>
+  <div id="anual-body"></div>
 </div>
 </main>
 
@@ -342,12 +354,34 @@ main{max-width:1100px;margin:0 auto;padding:20px 14px}
 const MONTHS=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const DS=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 const CCOLORS=['#3b82f6','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#f97316','#84cc16','#ec4899','#6366f1','#14b8a6','#a855f7'];
-let cY,cM,mData,clients,editId=null,pendingDelId=null;
+let cY,cM,mData,clients,editId=null,pendingDelId=null,anualYear=new Date().getFullYear();
 
 // ── STORAGE ──
 function mk(){return '_'+Math.random().toString(36).slice(2,8)}
 function mKey(m,y){return'lh4_'+y+'_'+String(m).padStart(2,'0')}
-function loadMD(m,y){const r=localStorage.getItem(mKey(m,y));return r?JSON.parse(r):{sessions:[]}}
+function loadMD(m,y){
+  const pad=v=>String(v).padStart(2,'0');
+  const suffix=y+'_'+pad(m);
+  // Collect sessions from all versions, newest wins
+  let sessions=[];
+  const seen=new Set();
+  for(const pre of ['lh2_','lh3_','lh4_']){
+    const raw=localStorage.getItem(pre+suffix);
+    if(!raw)continue;
+    const data=JSON.parse(raw);
+    (data.sessions||[]).forEach(s=>{
+      const key=(s.date||'')+'|'+(s.client||'')+'|'+(s.start||'')+'|'+(s.end||'');
+      if(!seen.has(key)){seen.add(key);sessions.push(s);}
+    });
+  }
+  if(sessions.length){
+    const merged={sessions};
+    // Save merged under lh4_ so future loads are fast
+    localStorage.setItem(mKey(m,y),JSON.stringify(merged));
+    return merged;
+  }
+  return{sessions:[]};
+}
 function saveMD(m,y,d){localStorage.setItem(mKey(m,y),JSON.stringify(d))}
 function cobKey(m,y){return'lh4_cob_'+y+'_'+String(m).padStart(2,'0')}
 // cobros: { CLIENTNAME: [{id, amount, date, note}] }
@@ -399,6 +433,7 @@ function init(){
       if(pg==='resumen')renderResumen();
       if(pg==='clientes')renderClientsConf();
       if(pg==='historial')renderHistorial();
+      if(pg==='anual')renderAnual();
     });
   });
   document.querySelectorAll('.overlay').forEach(o=>{
@@ -407,6 +442,9 @@ function init(){
   // repeat checkboxes trigger preview
   document.querySelectorAll('.rd').forEach(cb=>cb.addEventListener('change',updRCalc));
   document.querySelectorAll('.rmd').forEach(cb=>cb.addEventListener('change',updRMCalc));
+  // annual nav
+  document.getElementById('prev-yr').onclick=()=>{anualYear--;renderAnual()};
+  document.getElementById('next-yr').onclick=()=>{anualYear++;renderAnual()};
   seedData();loadRender();
 }
 
@@ -843,7 +881,7 @@ function saveClients(){saveClientsData();renderWeeks();showToast('✓ Clientes g
 function renderHistorial(){
   const entries=[];
   for(let k in localStorage){
-    if(k.startsWith('lh4_')&&!k.includes('cob')&&!k.includes('clients')&&!k.includes('notes')){
+    if((k.startsWith('lh4_')||k.startsWith('lh3_')||k.startsWith('lh2_'))&&!k.includes('cob')&&!k.includes('clients')&&!k.includes('notes')){
       const p=k.split('_');if(p.length===3){
         const y=parseInt(p[1]),m=parseInt(p[2]);
         const d=JSON.parse(localStorage.getItem(k)||'{}');
@@ -883,6 +921,170 @@ function exportCSV(){
   const csv=rows.map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(';')).join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
   a.download=`horas_${MONTHS[cM]}_${cY}.csv`;a.click();showToast('\u2b07 CSV descargado');
+}
+// ── RESUMEN ANUAL ──
+function renderAnual(){
+  document.getElementById('yr-label').textContent = anualYear;
+  const body = document.getElementById('anual-body');
+
+  // yearly totals
+  let yH=0,yE=0,yC=0;
+  const monthRows = [];
+  for(let m=0;m<12;m++){
+    const data=loadMD(m,anualYear);
+    const cob=loadCob(m,anualYear);
+    let mH=0,mE=0,mC=0,mS=0;
+    (data.sessions||[]).forEach(s=>{
+      const h=calcH(s.start,s.end),e=h*getC(s.client).rate;
+      mH+=h;mE+=e;mS++;
+    });
+    // sum cobros
+    Object.values(cob).forEach(pagos=>{
+      if(Array.isArray(pagos)) pagos.forEach(p=>mC+=p.amount);
+      else if(typeof pagos==='number') mC+=pagos;
+    });
+    mC=Math.min(mC,mE);
+    yH+=mH;yE+=mE;yC+=mC;
+    monthRows.push({m,mH,mE,mC,mS,pend:Math.max(0,mE-mC)});
+  }
+  const yPend=yE-yC;
+
+  let html=`
+    <div class="stats-row">
+      <div class="stat"><div class="lbl">Horas año</div><div class="val">${yH.toFixed(1)}</div></div>
+      <div class="stat"><div class="lbl">Facturado</div><div class="val">${yE.toFixed(0)}€</div></div>
+      <div class="stat"><div class="lbl">Cobrado</div><div class="val" style="color:var(--green)">${yC.toFixed(0)}€</div></div>
+      <div class="stat"><div class="lbl">Pendiente</div><div class="val" style="color:${yPend>0.01?'var(--red)':'var(--green)'}">${yPend.toFixed(0)}€</div></div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);margin-bottom:20px">
+      <table style="width:100%;border-collapse:collapse">
+        <thead>
+          <tr style="background:var(--surface)">
+            <th style="padding:10px 14px;text-align:left;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--border)">Mes</th>
+            <th style="padding:10px 14px;text-align:right;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--border)">Sesiones</th>
+            <th style="padding:10px 14px;text-align:right;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--border)">Horas</th>
+            <th style="padding:10px 14px;text-align:right;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--border)">Facturado</th>
+            <th style="padding:10px 14px;text-align:right;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--border)">Cobrado</th>
+            <th style="padding:10px 14px;text-align:right;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--border)">Pendiente</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+  monthRows.forEach(({m,mH,mE,mC,mS,pend})=>{
+    const isEmpty=mS===0;
+    const isCurrentM=(m===cM&&anualYear===cY);
+    html+=`<tr style="border-bottom:1px solid var(--border);${isCurrentM?'background:var(--accent-light)':''};cursor:pointer;transition:background .1s"
+      onclick="goMonth(${m},${anualYear})" onmouseover="this.style.background='var(--accent-light)'" onmouseout="this.style.background='${isCurrentM?'var(--accent-light)':''}'"">
+      <td style="padding:10px 14px;font-weight:${isCurrentM?'700':'500'};color:${isCurrentM?'var(--accent)':'var(--text)'}">${MONTHS[m]}${isCurrentM?' ←':''}</td>
+      <td style="padding:10px 14px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:${isEmpty?'var(--text3)':'var(--text)'}">${isEmpty?'—':mS}</td>
+      <td style="padding:10px 14px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:${isEmpty?'var(--text3)':'var(--text)'}">${isEmpty?'—':fH(mH)}</td>
+      <td style="padding:10px 14px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:${isEmpty?'var(--text3)':'var(--accent)'}">${isEmpty?'—':fE(mE)}</td>
+      <td style="padding:10px 14px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:${isEmpty?'var(--text3)':'var(--green)'}">${isEmpty?'—':fE(mC)}</td>
+      <td style="padding:10px 14px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:${isEmpty?'var(--text3)':pend>0.01?'var(--red)':'var(--green)'}">${isEmpty?'—':pend>0.01?fE(pend):'✓'}</td>
+    </tr>`;
+  });
+
+  html+=`</tbody>
+    <tfoot>
+      <tr style="background:var(--surface);border-top:2px solid var(--border2)">
+        <td style="padding:10px 14px;font-weight:700">TOTAL ${anualYear}</td>
+        <td></td>
+        <td style="padding:10px 14px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700">${fH(yH)}</td>
+        <td style="padding:10px 14px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--accent)">${fE(yE)}</td>
+        <td style="padding:10px 14px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--green)">${fE(yC)}</td>
+        <td style="padding:10px 14px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:${yPend>0.01?'var(--red)':'var(--green)'}">${yPend>0.01?fE(yPend):'✓ Todo cobrado'}</td>
+      </tr>
+    </tfoot>
+  </table></div>`;
+
+  // PENDIENTES ALERT — clients with unpaid balance > 0
+  html += renderPendientesAlert();
+
+  body.innerHTML = html;
+}
+
+function renderPendientesAlert(){
+  // Scan current month for unpaid clients and days since last payment
+  const ss = mData.sessions||[];
+  const cob = loadCob(cM,cY);
+  const agg = {};
+  ss.forEach(s=>{
+    if(!s.client)return;
+    const h=calcH(s.start,s.end),e=h*getC(s.client).rate;
+    if(!agg[s.client])agg[s.client]={e:0,sessions:[]};
+    agg[s.client].e+=e;
+    agg[s.client].sessions.push(s.date);
+  });
+
+  const pendientes = [];
+  Object.entries(agg).forEach(([name,v])=>{
+    const pagos = cob[name]||[];
+    const totalPagado = Array.isArray(pagos)?pagos.reduce((a,p)=>a+p.amount,0):(typeof pagos==='number'?pagos:0);
+    const pend = Math.max(0,v.e-totalPagado);
+    if(pend<0.01)return;
+    // days since last session
+    const lastDate = v.sessions.sort().pop();
+    const days = Math.floor((new Date()-new Date(lastDate+'T12:00'))/(1000*60*60*24));
+    pendientes.push({name,pend,days,lastDate,color:getC(name).color});
+  });
+
+  if(!pendientes.length) return `<div style="background:var(--green-light);border:1px solid #b7dfca;border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--green);font-weight:600">✓ Todo cobrado en ${MONTHS[cM]} ${cY}</div>`;
+
+  pendientes.sort((a,b)=>b.days-a.days);
+
+  let html=`<div style="font-size:15px;font-weight:700;margin-bottom:10px">⚠️ Pendientes de cobro — ${MONTHS[cM]} ${cY}</div>`;
+  pendientes.forEach(p=>{
+    const urgent = p.days>=14;
+    html+=`<div style="background:${urgent?'var(--red-light)':'#fffbea'};border:2px solid ${urgent?'#f5c6c0':'#e9c46a'};border-radius:var(--r);padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:${p.color};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px">${p.name[0]}</div>
+        <div>
+          <div style="font-weight:700;font-size:14px">${p.name}</div>
+          <div style="font-size:11px;color:var(--text3)">Última sesión: ${p.lastDate} · hace ${p.days} día${p.days!==1?'s':''}</div>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:${urgent?'var(--red)':'#b45309'}">${fE(p.pend)}</div>
+        ${urgent?'<div style="font-size:11px;color:var(--red);font-weight:600">⚠️ Más de 2 semanas</div>':''}
+      </div>
+    </div>`;
+  });
+  return html;
+}
+
+// ── BACKUP EXPORT / IMPORT ──
+function exportBackup(){
+  const data={};
+  for(let k in localStorage){
+    if(k.startsWith('lh4_')||k.startsWith('lh3_')||k.startsWith('lh2_')){
+      data[k]=localStorage.getItem(k);
+    }
+  }
+  const json=JSON.stringify({version:4,exported:new Date().toISOString(),data},null,2);
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([json],{type:'application/json'}));
+  const d=new Date();
+  a.download='backup_lidia_'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'.json';
+  a.click();
+  showToast('💾 Backup descargado');
+}
+function importBackup(evt){
+  const file=evt.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const backup=JSON.parse(e.target.result);
+      if(!backup.data){alert('Fichero no válido');return}
+      const keys=Object.keys(backup.data);
+      if(!confirm('Se importarán '+keys.length+' meses/datos. ¿Continuar?')){return}
+      keys.forEach(k=>localStorage.setItem(k,backup.data[k]));
+      clients=loadClients();
+      loadRender();
+      showToast('✓ '+keys.length+' registros importados');
+    }catch(err){alert('Error al leer el fichero: '+err.message)}
+  };
+  reader.readAsText(file);
+  evt.target.value='';
 }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
 
